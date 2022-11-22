@@ -10,15 +10,17 @@ import { buyOrderSelector } from '../../../store/reducers/buy-order';
 import { getAllBuyOrders } from '../../../store/reducers/buy-order/actions';
 import Loader from '../../../components/Loader/Loader';
 import CountryListLabel from '../../../components/CountryListLabel/CountryListLabel';
-import { checkCountryAvailability } from '../../../utils/filter';
+import { checkCountryAvailability } from '../../../utils/common';
 import { countrySelector } from '../../../store/reducers/country';
 import { thunkDispatch } from '../../../store/store';
 
 import './BuyOrderList.scss';
 
 const BuyOrderList = () => {
-  const { all: buyOrders, allStatus: buyOrdersStatus } = useSelector(buyOrderSelector);
-  const { status: countryStatus, countryFilters } = useSelector(countrySelector);
+  const { all: buyOrders, allStatus: buyOrdersStatus } =
+    useSelector(buyOrderSelector);
+  const { status: countryStatus, countryFilters } =
+    useSelector(countrySelector);
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
@@ -27,11 +29,11 @@ const BuyOrderList = () => {
     };
 
     fetchData();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    setIsLoaded(buyOrdersStatus === 'success' && countryStatus === 'success')
+    setIsLoaded(buyOrdersStatus === 'success' && countryStatus === 'success');
   }, [buyOrdersStatus, countryStatus]);
 
   if (!isLoaded) {
@@ -39,21 +41,24 @@ const BuyOrderList = () => {
   }
 
   if (!buyOrders || buyOrders.length === 0) {
-    return <Alert variant='warning' className='m-2'>No data</Alert>;
+    return (
+      <Alert variant="warning" className="m-2">
+        No data
+      </Alert>
+    );
   }
 
-  const filtered = buyOrders.filter(
-    buyOrder => checkCountryAvailability(
-      buyOrder.countries,
-      countryFilters
-    )
+  const filtered = buyOrders.filter((buyOrder) =>
+    checkCountryAvailability(buyOrder.countries, countryFilters)
   );
 
   const buyOrdersLen = filtered ? filtered.length : 0;
 
   return (
-    <Layout title='Your Buy Orders'>
-      <p>Showing {buyOrdersLen} results <CountryListLabel /></p>
+    <Layout title="Your Buy Orders">
+      <p>
+        Showing {buyOrdersLen} results <CountryListLabel />
+      </p>
       {filtered.map((buyOrder, index) => (
         <div className="mb-3" key={`buy-order-${index}`}>
           <Link to={`/buy-orders/${buyOrder.id}`} className="buy-order-item">

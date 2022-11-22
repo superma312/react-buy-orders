@@ -5,8 +5,15 @@ import { useSelector } from 'react-redux';
 
 import Layout from '../../../components/Layout/Layout';
 import BuyOrderForm from '../../../components/BuyOrder/BuyOrderForm/BuyOrderForm';
-import { buyOrderSelector, IBuyOrder, IBuyOrderPartial } from '../../../store/reducers/buy-order';
-import { getBuyOrderById, updateBuyOrderById } from '../../../store/reducers/buy-order/actions';
+import {
+  buyOrderSelector,
+  IBuyOrder,
+  IBuyOrderPartial,
+} from '../../../store/reducers/buy-order';
+import {
+  getBuyOrderById,
+  updateBuyOrderById,
+} from '../../../store/reducers/buy-order/actions';
 import { thunkDispatch } from '../../../store/store';
 import { getAllDatasets } from '../../../store/reducers/dataset/actions';
 import Loader from '../../../components/Loader/Loader';
@@ -19,7 +26,7 @@ const BuyOrderEdit = () => {
 
   useEffect(() => {
     if (updateStatus === 'success') {
-      navigate(`/buy-orders/${params.id}`)
+      navigate(`/buy-orders/${params.id}`);
     }
   }, [updateStatus, params.id, navigate]);
 
@@ -35,10 +42,12 @@ const BuyOrderEdit = () => {
   }, [params.id]);
 
   const handleSubmit = (data: IBuyOrderPartial) => {
-    thunkDispatch(updateBuyOrderById({
-      id: (params.id as string),
-      data: (data as IBuyOrder)
-    }));
+    thunkDispatch(
+      updateBuyOrderById({
+        id: params.id as string,
+        data: data as IBuyOrder,
+      })
+    );
   };
 
   if (detailStatus === 'pending') {
@@ -46,11 +55,15 @@ const BuyOrderEdit = () => {
   }
 
   if (!detail) {
-    return <Alert variant='warning' className='m-2'>No data</Alert>;
+    return (
+      <Alert variant="warning" className="m-2">
+        No data
+      </Alert>
+    );
   }
 
   return (
-    <Layout title='Edit Buy Order'>
+    <Layout title="Edit Buy Order">
       <BuyOrderForm
         details={detail}
         isSubmiting={updateStatus === 'pending'}

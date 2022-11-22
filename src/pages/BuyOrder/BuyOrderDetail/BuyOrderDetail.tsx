@@ -10,16 +10,19 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
 import Layout from '../../../components/Layout/Layout';
-import { deleteBuyOrderById, getBuyOrderById } from '../../../store/reducers/buy-order/actions';
+import {
+  deleteBuyOrderById,
+  getBuyOrderById,
+} from '../../../store/reducers/buy-order/actions';
 import { thunkDispatch } from '../../../store/store';
 import { buyOrderSelector } from '../../../store/reducers/buy-order';
 import Loader from '../../../components/Loader/Loader';
 import { countrySelector } from '../../../store/reducers/country';
 import { getAllDatasets } from '../../../store/reducers/dataset/actions';
 import { datasetSelector, IDataset } from '../../../store/reducers/dataset';
+import ButtonWithLoading from '../../../components/Buttons/ButtonWithLoading/ButtonWithLoading';
 
 import './BuyOrderDetail.scss';
-import ButtonWithLoading from '../../../components/Buttons/ButtonWithLoading/ButtonWithLoading';
 
 const BuyOrderDetail = () => {
   const params = useParams();
@@ -28,7 +31,8 @@ const BuyOrderDetail = () => {
   const [isShowConDelModal, setIsShowConDelModal] = useState(false);
   const { detail, detailStatus, deleteStatus } = useSelector(buyOrderSelector);
   const { status: countryStatus, countryMap } = useSelector(countrySelector);
-  const { all: allDatasets, status: datasetStatus } = useSelector(datasetSelector);
+  const { all: allDatasets, status: datasetStatus } =
+    useSelector(datasetSelector);
 
   useEffect(() => {
     const fetchData = () => {
@@ -44,10 +48,14 @@ const BuyOrderDetail = () => {
   useEffect(() => {
     let datsetsList = [];
 
-    if (detailStatus === 'success' && datasetStatus === 'success' && detail?.datasetIds) {
+    if (
+      detailStatus === 'success' &&
+      datasetStatus === 'success' &&
+      detail?.datasetIds
+    ) {
       const datsetsObj = detail.datasetIds.reduce((acc, currentVal) => {
         if (allDatasets) {
-          const datasetIndex = allDatasets.map(d => d.id).indexOf(currentVal);
+          const datasetIndex = allDatasets.map((d) => d.id).indexOf(currentVal);
           if (datasetIndex !== -1) {
             acc[currentVal] = allDatasets[datasetIndex];
           }
@@ -77,44 +85,63 @@ const BuyOrderDetail = () => {
     setIsShowConDelModal(false);
   };
 
-  if (detailStatus === 'pending' || countryStatus === 'pending' || datasetStatus === 'pending') {
+  if (
+    detailStatus === 'pending' ||
+    countryStatus === 'pending' ||
+    datasetStatus === 'pending'
+  ) {
     return <Loader />;
   }
 
   if (!detail) {
-    return <Alert variant='warning' className='m-2'>No data</Alert>;
+    return (
+      <Alert variant="warning" className="m-2">
+        No data
+      </Alert>
+    );
   }
 
   return (
-    <Layout title='Buy Order Details'>
-      <div className='bg-gray-black p-4'>
+    <Layout title="Buy Order Details">
+      <div className="bg-gray-black p-4">
         <Row>
-          <Col xs={12} md={6} className='mb-3'>
-            <u className='text-secondary'>Order name</u>
+          <Col xs={12} md={6} className="mb-3">
+            <u className="text-secondary">Order name</u>
             <div>{detail.name}</div>
           </Col>
-          <Col xs={12} md={6} className='mb-3'>
-            <u className='text-secondary'>Date Created</u>
+          <Col xs={12} md={6} className="mb-3">
+            <u className="text-secondary">Date Created</u>
             <div>{dayjs(detail.createdAt).format('MM/DD/YYYY')}</div>
           </Col>
         </Row>
         <Row>
-          <Col xs={12} md={6} className='mb-3'>
-            <u className='text-secondary'>Order Budget</u>
+          <Col xs={12} md={6} className="mb-3">
+            <u className="text-secondary">Order Budget</u>
             <div>${detail.budget.toFixed(2)}</div>
           </Col>
         </Row>
         <Row>
-          <Col xs={12} className='mb-3'>
-            <u className='text-secondary'>Included datasets</u>
+          <Col xs={12} className="mb-3">
+            <u className="text-secondary">Included datasets</u>
             <Row>
-              {datasets.map(dataset => (
-                <Col xs={12} md={6} key={`dataset_${dataset.id}`} className='mb-3'>
-                  <div className='d-flex align-items-center bg-gray-white p-2'>
-                    <img src={dataset.thumbnailUrl} alt='thumbnail' className='me-2 thumbnail' />
+              {datasets.map((dataset) => (
+                <Col
+                  xs={12}
+                  md={6}
+                  key={`dataset_${dataset.id}`}
+                  className="mb-3"
+                >
+                  <div className="d-flex align-items-center bg-gray-white p-2">
+                    <img
+                      src={dataset.thumbnailUrl}
+                      alt="thumbnail"
+                      className="me-2 thumbnail"
+                    />
                     <div>
                       <div>{dataset.label}</div>
-                      <div className='fw-lighter cost'>${dataset.costPerRecord.toFixed(2)} per record</div>
+                      <div className="fw-lighter cost">
+                        ${dataset.costPerRecord.toFixed(2)} per record
+                      </div>
                     </div>
                   </div>
                 </Col>
@@ -123,21 +150,37 @@ const BuyOrderDetail = () => {
           </Col>
         </Row>
         <Row>
-          <Col xs={12} md={6} className='mb-3'>
-            <u className='text-secondary'>Date Created</u>
+          <Col xs={12} md={6} className="mb-3">
+            <u className="text-secondary">Date Created</u>
             <div>
-              {detail.countries && detail.countries.map(countryCode => (
-                <Badge pill bg="light" className='mx-1 text-dark bg-gray-white' key={`country_${countryCode}`}>
-                  {countryMap[countryCode]}
-                </Badge>
-              ))}
+              {detail.countries &&
+                detail.countries.map((countryCode) => (
+                  <Badge
+                    pill
+                    bg="light"
+                    className="mx-1 text-dark bg-gray-white"
+                    key={`country_${countryCode}`}
+                  >
+                    {countryMap[countryCode]}
+                  </Badge>
+                ))}
             </div>
           </Col>
         </Row>
         <Row>
-          <Col xs={12} md={{span: 6, offset: 6}} className='mt-4'>
-            <Button className='me-2' variant='secondary' href={`/buy-orders/${params.id}/edit`}>Edit Order</Button>
-            <ButtonWithLoading label='Delete Order' isSubmiting={deleteStatus === 'pending'} onClick={() => setIsShowConDelModal(true)} />
+          <Col xs={12} md={{ span: 6, offset: 6 }} className="mt-4">
+            <Button
+              className="me-2"
+              variant="secondary"
+              href={`/buy-orders/${params.id}/edit`}
+            >
+              Edit Order
+            </Button>
+            <ButtonWithLoading
+              label="Delete Order"
+              isSubmiting={deleteStatus === 'pending'}
+              onClick={() => setIsShowConDelModal(true)}
+            />
           </Col>
         </Row>
 
@@ -150,14 +193,17 @@ const BuyOrderDetail = () => {
           <Modal.Header closeButton>
             <Modal.Title>Delete Order</Modal.Title>
           </Modal.Header>
-          <Modal.Body>
-            Are you sure to delete this order?
-          </Modal.Body>
+          <Modal.Body>Are you sure to delete this order?</Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={() => setIsShowConDelModal(false)}>
+            <Button
+              variant="secondary"
+              onClick={() => setIsShowConDelModal(false)}
+            >
               Close
             </Button>
-            <Button variant="primary" onClick={handleDeleteOrder}>Yes</Button>
+            <Button variant="primary" onClick={handleDeleteOrder}>
+              Yes
+            </Button>
           </Modal.Footer>
         </Modal>
       </div>

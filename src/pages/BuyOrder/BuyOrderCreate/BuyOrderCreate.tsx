@@ -3,8 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import Layout from '../../../components/Layout/Layout';
-import BuyOrderForm, { initialBuyOrderData } from '../../../components/BuyOrder/BuyOrderForm/BuyOrderForm';
-import { buyOrderSelector, IBuyOrderPartial } from '../../../store/reducers/buy-order';
+import BuyOrderForm, {
+  initialBuyOrderData,
+} from '../../../components/BuyOrder/BuyOrderForm/BuyOrderForm';
+import {
+  buyOrderSelector,
+  IBuyOrderPartial,
+} from '../../../store/reducers/buy-order';
 import { createBuyOrder } from '../../../store/reducers/buy-order/actions';
 import { thunkDispatch } from '../../../store/store';
 import { getAllDatasets } from '../../../store/reducers/dataset/actions';
@@ -28,14 +33,16 @@ const BuyOrderCreate = () => {
   }, [createStatus, navigate]);
 
   const handleSubmit = (data: IBuyOrderPartial) => {
-    thunkDispatch(createBuyOrder({
-      ...data,
-      createdAt: new Date()
-    }));
+    thunkDispatch(
+      createBuyOrder({
+        ...data,
+        createdAt: new Date(),
+      })
+    );
   };
 
   return (
-    <Layout title='New Buy Order'>
+    <Layout title="New Buy Order">
       <BuyOrderForm
         details={initialBuyOrderData}
         isSubmiting={createStatus === 'pending'}

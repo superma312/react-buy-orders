@@ -2,9 +2,7 @@ import axios, { AxiosResponse } from 'axios';
 
 const baseUrl = process.env.REACT_APP_API_URL;
 
-export const get = async <T>(
-  path: string,
-): Promise<T | null> => {
+export const get = async <T>(path: string): Promise<T | null> => {
   try {
     const res: AxiosResponse<T> = await axios.get(`${baseUrl}/${path}`);
 
@@ -14,7 +12,7 @@ export const get = async <T>(
 
     return null;
   } catch (error) {
-    console.log("API Get Error: ", error);
+    console.log('API Get Error: ', error);
     if (axios.isAxiosError(error) && error.response) {
       throw error.response.data;
     } else {
@@ -28,10 +26,7 @@ export const post = async <T>(
   data: T
 ): Promise<T | undefined> => {
   try {
-    const res: AxiosResponse<T> = await axios.post(
-      `${baseUrl}/${path}`,
-      data,
-    );
+    const res: AxiosResponse<T> = await axios.post(`${baseUrl}/${path}`, data);
     if (res.status === 200 && res.data instanceof Object) {
       return res.data;
     }
@@ -42,15 +37,9 @@ export const post = async <T>(
   }
 };
 
-export const put = async <T>(
-  path: string,
-  data: T
-): Promise<T | undefined> => {
+export const put = async <T>(path: string, data: T): Promise<T | undefined> => {
   try {
-    const res: AxiosResponse<T> = await axios.put(
-      `${baseUrl}/${path}`,
-      data,
-    );
+    const res: AxiosResponse<T> = await axios.put(`${baseUrl}/${path}`, data);
     if (res.status === 200 && res.data instanceof Object) {
       return res.data;
     }

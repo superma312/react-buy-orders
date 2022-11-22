@@ -8,7 +8,7 @@ export const store = configureStore({
   reducer: {
     dataset: datasetReducer,
     buyOrder: buyOrderReducer,
-    country: countryReducer
+    country: countryReducer,
   },
 });
 

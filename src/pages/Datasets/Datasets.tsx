@@ -11,15 +11,22 @@ import { datasetSelector } from '../../store/reducers/dataset';
 import Loader from '../../components/Loader/Loader';
 import CountryFilter from '../../components/CountryFilter/CountryFilter';
 import { countrySelector } from '../../store/reducers/country';
-import { checkCountryAvailability } from '../../utils/filter';
+import { checkCountryAvailability } from '../../utils/common';
 import CountryListLabel from '../../components/CountryListLabel/CountryListLabel';
 import { thunkDispatch } from '../../store/store';
 
 const Datasets = () => {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [dataMap, setDataMap] = useState<Record<number, {countryCodes: string[], recordCount: number}>>({});
+  const [dataMap, setDataMap] = useState<
+    Record<number, { countryCodes: string[]; recordCount: number }>
+  >({});
   const { all: datasets, status: datasetStatus } = useSelector(datasetSelector);
-  const { all: countries, status: countryStatus, countryMap, countryFilters } = useSelector(countrySelector);
+  const {
+    all: countries,
+    status: countryStatus,
+    countryMap,
+    countryFilters,
+  } = useSelector(countrySelector);
 
   useEffect(() => {
     const fetchData = () => {
@@ -27,16 +34,19 @@ const Datasets = () => {
     };
 
     fetchData();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     if (datasets && datasets.length > 0 && countries && countries.length > 0) {
-      let datasetCountryMap: Record<number, {countryCodes: string[], recordCount: number}> = {};
+      let datasetCountryMap: Record<
+        number,
+        { countryCodes: string[]; recordCount: number }
+      > = {};
 
       for (let c = 0; c < countries.length; c++) {
         const country = countries[c];
-        
+
         if (country.storedData) {
           for (let d = 0; d < country.storedData.length; d++) {
             const dataset = country.storedData[d];
@@ -44,12 +54,15 @@ const Datasets = () => {
             if (!datasetCountryMap[dataset.datasetId]) {
               datasetCountryMap[dataset.datasetId] = {
                 countryCodes: [],
-                recordCount: 0
+                recordCount: 0,
               };
             }
 
-            datasetCountryMap[dataset.datasetId].countryCodes.push(country.countryCode);
-            datasetCountryMap[dataset.datasetId].recordCount += dataset.recordCount;
+            datasetCountryMap[dataset.datasetId].countryCodes.push(
+              country.countryCode
+            );
+            datasetCountryMap[dataset.datasetId].recordCount +=
+              dataset.recordCount;
           }
         }
       }
@@ -61,7 +74,7 @@ const Datasets = () => {
   }, [datasets, countries]);
 
   useEffect(() => {
-    setIsLoaded(datasetStatus === 'success' && countryStatus === 'success')
+    setIsLoaded(datasetStatus === 'success' && countryStatus === 'success');
   }, [datasetStatus, countryStatus]);
 
   if (!isLoaded) {
@@ -69,11 +82,15 @@ const Datasets = () => {
   }
 
   if (!datasets || datasets.length === 0) {
-    return <Alert variant='warning' className='m-2'>No data</Alert>;
+    return (
+      <Alert variant="warning" className="m-2">
+        No data
+      </Alert>
+    );
   }
 
-  const filteredDataSets = datasets.filter(
-    dataset => checkCountryAvailability(
+  const filteredDataSets = datasets.filter((dataset) =>
+    checkCountryAvailability(
       dataMap[dataset.id] ? dataMap[dataset.id].countryCodes : [],
       countryFilters
     )
@@ -82,15 +99,17 @@ const Datasets = () => {
   const datasetsLen = filteredDataSets ? filteredDataSets.length : 0;
 
   return (
-    <Layout title='Datasets'>
-      <p>Showing {datasetsLen} results <CountryListLabel /></p>
+    <Layout title="Datasets">
+      <p>
+        Showing {datasetsLen} results <CountryListLabel />
+      </p>
       <Row>
         {filteredDataSets.map((dataset, index) => (
           <Col xs={12} md={6} className="mb-3" key={`dataset_${index}`}>
             <DatasetCard
               data={{
                 ...dataset,
-                ...dataMap[dataset.id]
+                ...dataMap[dataset.id],
               }}
               countryMap={countryMap}
             />

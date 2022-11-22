@@ -1,8 +1,8 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
-import { TAPIStatus } from "../../../types/api";
-import { RootState } from "../../store";
-import { getAllDatasets } from "./actions";
+import { TAPIStatus } from '../../../types/api';
+import { RootState } from '../../store';
+import { getAllDatasets } from './actions';
 
 export interface IDataset {
   id: number;
@@ -22,30 +22,30 @@ export interface IDatasetState {
 const initialState: IDatasetState = {
   all: null,
   status: null,
-  error: null
+  error: null,
 };
 
 const datasetSlice = createSlice({
-  name: "dataset",
+  name: 'dataset',
   initialState,
   reducers: {},
-  extraReducers: builder => {
+  extraReducers: (builder) => {
     builder
-      .addCase(getAllDatasets.pending, state => {
-        state.status = "pending";
+      .addCase(getAllDatasets.pending, (state) => {
+        state.status = 'pending';
       })
       .addCase(getAllDatasets.fulfilled, (state, { payload }) => {
-        state.status = "success";
+        state.status = 'success';
         state.all = payload;
         state.error = null;
       })
       .addCase(getAllDatasets.rejected, (state, { error }) => {
-        state.status = "failure";
+        state.status = 'failure';
         state.all = null;
-        state.error = error.message || "Unknown Error";
-        console.error("getAllDatasets error: ", error);
+        state.error = error.message || 'Unknown Error';
+        console.error('getAllDatasets error: ', error);
       });
-    },
+  },
 });
 
 // Reducers

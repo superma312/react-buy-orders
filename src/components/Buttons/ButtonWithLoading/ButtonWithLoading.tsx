@@ -8,13 +8,13 @@ interface IButtonWithLoadingProps {
   onClick: () => void;
 }
 
-const ButtonWithLoading: FC<IButtonWithLoadingProps> = ({label, isSubmiting, onClick}) => {
+const ButtonWithLoading: FC<IButtonWithLoadingProps> = ({
+  label,
+  isSubmiting,
+  onClick,
+}) => {
   return (
-    <Button
-      variant='secondary'
-      onClick={onClick}
-      disabled={isSubmiting}
-    >
+    <Button variant="secondary" onClick={onClick} disabled={isSubmiting}>
       {isSubmiting ? (
         <>
           <Spinner
@@ -26,7 +26,9 @@ const ButtonWithLoading: FC<IButtonWithLoadingProps> = ({label, isSubmiting, onC
           />
           Loading...
         </>
-      ) : label}
+      ) : (
+        label
+      )}
     </Button>
   );
 };

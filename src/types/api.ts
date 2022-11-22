@@ -1,1 +1,1 @@
-export type TAPIStatus = "success" | "failure" | "pending" | null;
+export type TAPIStatus = 'success' | 'failure' | 'pending' | null;
