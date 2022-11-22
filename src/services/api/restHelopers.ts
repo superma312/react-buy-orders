@@ -22,3 +22,55 @@ export const get = async <T>(
     }
   }
 };
+
+export const post = async <T>(
+  path: string,
+  data: T
+): Promise<T | undefined> => {
+  try {
+    const res: AxiosResponse<T> = await axios.post(
+      `${baseUrl}/${path}`,
+      data,
+    );
+    if (res.status === 200 && res.data instanceof Object) {
+      return res.data;
+    }
+    return;
+  } catch (e) {
+    console.error('API POST Error: ', e);
+    throw e;
+  }
+};
+
+export const put = async <T>(
+  path: string,
+  data: T
+): Promise<T | undefined> => {
+  try {
+    const res: AxiosResponse<T> = await axios.put(
+      `${baseUrl}/${path}`,
+      data,
+    );
+    if (res.status === 200 && res.data instanceof Object) {
+      return res.data;
+    }
+    return;
+  } catch (e) {
+    console.error('API POST Error: ', e);
+    throw e;
+  }
+};
+
+export const del = async (path: string) => {
+  try {
+    const res: AxiosResponse = await axios.delete(`${baseUrl}/${path}`);
+
+    if (res.status === 200) {
+      return res;
+    }
+    return;
+  } catch (e) {
+    console.error('API DELETE Error: ', e);
+    throw e;
+  }
+};

@@ -1,7 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 import { useSelector } from 'react-redux';
 import Alert from 'react-bootstrap/Alert';
 import { Link } from 'react-router-dom';
@@ -37,7 +34,7 @@ const BuyOrders = () => {
     setIsLoaded(buyOrdersStatus === 'success' && countryStatus === 'success')
   }, [buyOrdersStatus, countryStatus]);
 
-  if (isLoaded === "pending") {
+  if (!isLoaded) {
     return <Loader />;
   }
 
@@ -55,27 +52,16 @@ const BuyOrders = () => {
   const buyOrdersLen = filtered ? filtered.length : 0;
 
   return (
-    <Layout>
-      <Container fluid>
-        <Row>
-          <Col>
-            <h1 className='text-center my-4'>Your Buy Orders</h1>
-            <p>Showing {buyOrdersLen} results <CountryListLabel /></p>
-          </Col>
-        </Row>
-        <Row>
-          {filtered.map((buyOrder, index) => (
-            <Col xs={12} className="mb-3" key={`buy-order-${index}`}>
-              <Link to={`/buy-orders/${buyOrder.id}`} className="buy-order-item">
-                <BuyOrderItem data={buyOrder} />
-              </Link>
-            </Col>
-          ))}
-        </Row>
-      </Container>
-      <div>
-        <CountryFilter />
-      </div>
+    <Layout title='Your Buy Orders'>
+      <p>Showing {buyOrdersLen} results <CountryListLabel /></p>
+      {filtered.map((buyOrder, index) => (
+        <div className="mb-3" key={`buy-order-${index}`}>
+          <Link to={`/buy-orders/${buyOrder.id}`} className="buy-order-item">
+            <BuyOrderItem data={buyOrder} />
+          </Link>
+        </div>
+      ))}
+      <CountryFilter />
     </Layout>
   );
 };

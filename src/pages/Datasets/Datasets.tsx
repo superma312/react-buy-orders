@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { useSelector } from 'react-redux';
@@ -18,7 +17,7 @@ import { thunkDispatch } from '../../store/store';
 
 const Datasets = () => {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [dataMap, setDataMap] = useState({});
+  const [dataMap, setDataMap] = useState<Record<number, {countryCodes: string[], recordCount: number}>>({});
   const { all: datasets, status: datasetStatus } = useSelector(datasetSelector);
   const { all: countries, status: countryStatus, countryMap, countryFilters } = useSelector(countrySelector);
 
@@ -33,7 +32,7 @@ const Datasets = () => {
 
   useEffect(() => {
     if (datasets && datasets.length > 0 && countries && countries.length > 0) {
-      let datasetCountryMap = {};
+      let datasetCountryMap: Record<number, {countryCodes: string[], recordCount: number}> = {};
 
       for (let c = 0; c < countries.length; c++) {
         const country = countries[c];
@@ -83,31 +82,22 @@ const Datasets = () => {
   const datasetsLen = filteredDataSets ? filteredDataSets.length : 0;
 
   return (
-    <Layout>
-      <Container fluid>
-        <Row>
-          <Col>
-            <h1 className='text-center my-4'>Datasets</h1>
-            <p>Showing {datasetsLen} results <CountryListLabel /></p>
+    <Layout title='Datasets'>
+      <p>Showing {datasetsLen} results <CountryListLabel /></p>
+      <Row>
+        {filteredDataSets.map((dataset, index) => (
+          <Col xs={12} md={6} className="mb-3" key={`dataset_${index}`}>
+            <DatasetCard
+              data={{
+                ...dataset,
+                ...dataMap[dataset.id]
+              }}
+              countryMap={countryMap}
+            />
           </Col>
-        </Row>
-        <Row>
-          {filteredDataSets.map((dataset, index) => (
-            <Col xs={12} md={6} className="mb-3" key={`dataset_${index}`}>
-              <DatasetCard
-                data={{
-                  ...dataset,
-                  ...dataMap[dataset.id]
-                }}
-                countryMap={countryMap}
-              />
-            </Col>
-          ))}
-        </Row>
-      </Container>
-      <div>
-        <CountryFilter />
-      </div>
+        ))}
+      </Row>
+      <CountryFilter />
     </Layout>
   );
 };
