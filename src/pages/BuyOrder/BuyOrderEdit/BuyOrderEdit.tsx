@@ -24,6 +24,7 @@ const BuyOrderEdit = () => {
   const { updateStatus } = useSelector(buyOrderSelector);
   const { detail, detailStatus } = useSelector(buyOrderSelector);
 
+  // Redirect to the detail page after updating
   useEffect(() => {
     if (updateStatus === 'success') {
       navigate(`/buy-orders/${params.id}`);

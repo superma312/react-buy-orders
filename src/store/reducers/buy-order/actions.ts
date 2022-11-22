@@ -28,8 +28,7 @@ export const updateBuyOrderById = createAsyncThunk(
   'buyOrder/update-by-id',
   async (payload: { id: string; data: IBuyOrder }) => {
     try {
-      const res = await put(`buy-orders/${payload.id}`, payload.data);
-      return res;
+      return put(`buy-orders/${payload.id}`, payload.data);
     } catch (err) {
       throw (err as any).detail || err;
     }
@@ -40,8 +39,7 @@ export const createBuyOrder = createAsyncThunk(
   'buyOrder/new',
   async (data: IBuyOrderPartial) => {
     try {
-      const res = await post('buy-orders', data);
-      return res;
+      return post('buy-orders', data);
     } catch (err) {
       throw (err as any).detail || err;
     }

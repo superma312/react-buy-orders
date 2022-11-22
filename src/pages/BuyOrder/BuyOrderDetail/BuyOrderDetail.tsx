@@ -27,7 +27,7 @@ import './BuyOrderDetail.scss';
 const BuyOrderDetail = () => {
   const params = useParams();
   const navigate = useNavigate();
-  const [datasets, setDatasets] = useState<IDataset[]>([]);
+  const [datasetsMap, setDatasetsMap] = useState<Record<number, IDataset>>({});
   const [isShowConDelModal, setIsShowConDelModal] = useState(false);
   const { detail, detailStatus, deleteStatus } = useSelector(buyOrderSelector);
   const { status: countryStatus, countryMap } = useSelector(countrySelector);
@@ -46,14 +46,14 @@ const BuyOrderDetail = () => {
   }, [params.id]);
 
   useEffect(() => {
-    let datsetsList = [];
+    let datsetsObj = {};
 
     if (
       detailStatus === 'success' &&
       datasetStatus === 'success' &&
       detail?.datasetIds
     ) {
-      const datsetsObj = detail.datasetIds.reduce((acc, currentVal) => {
+      datsetsObj = detail.datasetIds.reduce((acc, currentVal) => {
         if (allDatasets) {
           const datasetIndex = allDatasets.map((d) => d.id).indexOf(currentVal);
           if (datasetIndex !== -1) {
@@ -63,14 +63,9 @@ const BuyOrderDetail = () => {
 
         return acc;
       }, {} as Record<number, IDataset>);
-
-      for (let i = 0; i < detail.datasetIds.length; i++) {
-        const id = detail.datasetIds[i];
-        datsetsList.push(datsetsObj[id]);
-      }
     }
 
-    setDatasets(datsetsList);
+    setDatasetsMap(datsetsObj);
   }, [allDatasets, datasetStatus, detail, detailStatus]);
 
   // Redirect to buy orders list page after deleting
@@ -124,26 +119,29 @@ const BuyOrderDetail = () => {
           <Col xs={12} className="mb-3">
             <u className="text-secondary">Included datasets</u>
             <Row>
-              {datasets.map((dataset) => (
+              {detail.datasetIds.map((datasetId) => (
                 <Col
                   xs={12}
                   md={6}
-                  key={`dataset_${dataset.id}`}
+                  key={`dataset_${datasetId}`}
                   className="mb-3"
                 >
-                  <div className="d-flex align-items-center bg-gray-white p-2">
-                    <img
-                      src={dataset.thumbnailUrl}
-                      alt="thumbnail"
-                      className="me-2 thumbnail"
-                    />
-                    <div>
-                      <div>{dataset.label}</div>
-                      <div className="fw-lighter cost">
-                        ${dataset.costPerRecord.toFixed(2)} per record
+                  {datasetsMap[datasetId] && (
+                    <div className="d-flex align-items-center bg-gray-white p-2">
+                      <img
+                        src={datasetsMap[datasetId].thumbnailUrl}
+                        alt="thumbnail"
+                        className="me-2 thumbnail"
+                      />
+                      <div>
+                        <div>{datasetsMap[datasetId].label}</div>
+                        <div className="fw-lighter cost">
+                          ${datasetsMap[datasetId].costPerRecord.toFixed(2)} per
+                          record
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  )}
                 </Col>
               ))}
             </Row>

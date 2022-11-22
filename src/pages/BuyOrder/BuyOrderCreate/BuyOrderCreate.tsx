@@ -26,6 +26,7 @@ const BuyOrderCreate = () => {
     fetchData();
   }, []);
 
+  // Redirect to the list page after creating
   useEffect(() => {
     if (createStatus === 'success') {
       navigate('/buy-orders');

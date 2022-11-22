@@ -102,23 +102,23 @@ const BuyOrderForm: FC<IBuyOrderFormProps> = ({
   const actionBtnLabel = isEdit ? 'Save' : 'Create Order';
 
   return (
-    <div className="bg-gray-black p-4">
+    <div className='bg-gray-black p-4'>
       <Row>
-        <Col xs={12} md={6} className="mb-3">
-          <u className="text-secondary mb-2">Order name</u>
+        <Col xs={12} md={6} className='mb-3'>
+          <u className='text-secondary mb-2'>Order name</u>
           <div>
             <Form.Control
-              type="text"
+              type='text'
               value={formData.name ? formData.name : ''}
-              placeholder="Order name"
+              placeholder='Order name'
               onChange={(event) => handleChangeValue('name', event)}
             />
           </div>
         </Col>
-        <Col xs={12} md={6} className="mb-3">
+        <Col xs={12} md={6} className='mb-3'>
           {isEdit && (
             <>
-              <u className="text-secondary mb-2">Date Created</u>
+              <u className='text-secondary mb-2'>Date Created</u>
               <div>
                 {formData.createdAt
                   ? dayjs(formData?.createdAt).format('MM/DD/YYYY')
@@ -129,22 +129,22 @@ const BuyOrderForm: FC<IBuyOrderFormProps> = ({
         </Col>
       </Row>
       <Row>
-        <Col xs={12} md={6} className="mb-3">
-          <u className="text-secondary mb-2">Order Budget</u>
-          <div className="d-flex align-items-center">
-            <span className="me-2">$</span>
+        <Col xs={12} md={6} className='mb-3'>
+          <u className='text-secondary mb-2'>Order Budget</u>
+          <div className='d-flex align-items-center'>
+            <span className='me-2'>$</span>
             <Form.Control
-              type="number"
+              type='number'
               value={formData.budget ? formData.budget : 0}
-              placeholder="Order Budget"
+              placeholder='Order Budget'
               onChange={(event) => handleChangeValue('budget', event, 'number')}
             />
           </div>
         </Col>
       </Row>
       <Row>
-        <Col xs={12} className="mb-3">
-          <u className="text-secondary mb-2">Included datasets</u>
+        <Col xs={12} className='mb-3'>
+          <u className='text-secondary mb-2'>Included datasets</u>
           <Row>
             {allDatasets &&
               allDatasets.map((dataset) => (
@@ -152,7 +152,7 @@ const BuyOrderForm: FC<IBuyOrderFormProps> = ({
                   xs={12}
                   md={6}
                   key={`dataset_${dataset.id}`}
-                  className="mb-3"
+                  className='mb-3'
                 >
                   <div
                     className={`d-flex align-items-center bg-gray-white p-2 cursor-pointer ${
@@ -164,12 +164,12 @@ const BuyOrderForm: FC<IBuyOrderFormProps> = ({
                   >
                     <img
                       src={dataset.thumbnailUrl}
-                      alt="thumbnail"
-                      className="me-2 thumbnail"
+                      alt='thumbnail'
+                      className='me-2 thumbnail'
                     />
                     <div>
                       <div>{dataset.label}</div>
-                      <div className="fw-lighter cost">
+                      <div className='fw-lighter cost'>
                         ${dataset.costPerRecord.toFixed(2)} per record
                       </div>
                     </div>
@@ -180,14 +180,14 @@ const BuyOrderForm: FC<IBuyOrderFormProps> = ({
         </Col>
       </Row>
       <Row>
-        <Col xs={12} md={6} className="mb-3">
-          <u className="text-secondary">Included countries</u>
+        <Col xs={12} md={6} className='mb-3'>
+          <u className='text-secondary'>Included countries</u>
           <div>
             {allCountries &&
               allCountries.map((country) => (
                 <Badge
                   pill
-                  bg="light"
+                  bg='light'
                   className={`mx-1 text-dark bg-gray-white cursor-pointer ${
                     formData.countries?.indexOf(country.countryCode) === -1
                       ? ''
@@ -204,7 +204,7 @@ const BuyOrderForm: FC<IBuyOrderFormProps> = ({
       </Row>
       <Row>
         <Col xs={12}>
-          <div className="d-flex justify-content-center">
+          <div className='d-flex justify-content-center'>
             <ButtonWithLoading
               label={actionBtnLabel}
               isSubmiting={isSubmiting}

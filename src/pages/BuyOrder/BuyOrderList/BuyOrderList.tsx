@@ -42,7 +42,7 @@ const BuyOrderList = () => {
 
   if (!buyOrders || buyOrders.length === 0) {
     return (
-      <Alert variant="warning" className="m-2">
+      <Alert variant='warning' className='m-2'>
         No data
       </Alert>
     );
@@ -55,13 +55,13 @@ const BuyOrderList = () => {
   const buyOrdersLen = filtered ? filtered.length : 0;
 
   return (
-    <Layout title="Your Buy Orders">
+    <Layout title='Your Buy Orders'>
       <p>
         Showing {buyOrdersLen} results <CountryListLabel />
       </p>
       {filtered.map((buyOrder, index) => (
-        <div className="mb-3" key={`buy-order-${index}`}>
-          <Link to={`/buy-orders/${buyOrder.id}`} className="buy-order-item">
+        <div className='mb-3' key={`buy-order-${index}`}>
+          <Link to={`/buy-orders/${buyOrder.id}`} className='buy-order-item'>
             <BuyOrderItem data={buyOrder} />
           </Link>
         </div>

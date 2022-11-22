@@ -38,12 +38,13 @@ const Datasets = () => {
   }, []);
 
   useEffect(() => {
-    if (datasets && datasets.length > 0 && countries && countries.length > 0) {
-      let datasetCountryMap: Record<
-        number,
-        { countryCodes: string[]; recordCount: number }
-      > = {};
+    // Generate the map to calculate available records and included countries
+    let datasetCountryMap: Record<
+      number,
+      { countryCodes: string[]; recordCount: number }
+    > = {};
 
+    if (datasets && datasets.length > 0 && countries && countries.length > 0) {
       for (let c = 0; c < countries.length; c++) {
         const country = countries[c];
 
@@ -66,11 +67,9 @@ const Datasets = () => {
           }
         }
       }
-
-      setDataMap(datasetCountryMap);
-    } else {
-      setDataMap({});
     }
+
+    setDataMap(datasetCountryMap);
   }, [datasets, countries]);
 
   useEffect(() => {
@@ -83,7 +82,7 @@ const Datasets = () => {
 
   if (!datasets || datasets.length === 0) {
     return (
-      <Alert variant="warning" className="m-2">
+      <Alert variant='warning' className='m-2'>
         No data
       </Alert>
     );
@@ -99,13 +98,13 @@ const Datasets = () => {
   const datasetsLen = filteredDataSets ? filteredDataSets.length : 0;
 
   return (
-    <Layout title="Datasets">
+    <Layout title='Datasets'>
       <p>
         Showing {datasetsLen} results <CountryListLabel />
       </p>
       <Row>
         {filteredDataSets.map((dataset, index) => (
-          <Col xs={12} md={6} className="mb-3" key={`dataset_${index}`}>
+          <Col xs={12} md={6} className='mb-3' key={`dataset_${index}`}>
             <DatasetCard
               data={{
                 ...dataset,

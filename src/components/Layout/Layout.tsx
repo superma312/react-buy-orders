@@ -11,9 +11,9 @@ interface LayoutProps {
 const Layout: FC<LayoutProps> = ({ children, title }) => {
   return (
     <Container>
-      <Row className="justify-content-center">
+      <Row className='justify-content-center'>
         <Col md={10}>
-          {title && <h1 className="text-center my-5">{title}</h1>}
+          {title && <h1 className='text-center my-5'>{title}</h1>}
           {children}
         </Col>
       </Row>

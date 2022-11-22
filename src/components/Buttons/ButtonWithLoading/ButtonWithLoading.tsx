@@ -14,15 +14,15 @@ const ButtonWithLoading: FC<IButtonWithLoadingProps> = ({
   onClick,
 }) => {
   return (
-    <Button variant="secondary" onClick={onClick} disabled={isSubmiting}>
+    <Button variant='secondary' onClick={onClick} disabled={isSubmiting}>
       {isSubmiting ? (
         <>
           <Spinner
-            as="span"
-            animation="grow"
-            size="sm"
-            role="status"
-            aria-hidden="true"
+            as='span'
+            animation='grow'
+            size='sm'
+            role='status'
+            aria-hidden='true'
           />
           Loading...
         </>
