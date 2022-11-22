@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -15,7 +14,6 @@ import { deleteBuyOrderById, getBuyOrderById } from '../../../store/reducers/buy
 import { thunkDispatch } from '../../../store/store';
 import { buyOrderSelector } from '../../../store/reducers/buy-order';
 import Loader from '../../../components/Loader/Loader';
-import PageHeader from '../../../components/PageHeader/PageHeader';
 import { countrySelector } from '../../../store/reducers/country';
 import { getAllDatasets } from '../../../store/reducers/dataset/actions';
 import { datasetSelector, IDataset } from '../../../store/reducers/dataset';
@@ -28,7 +26,7 @@ const BuyOrderDetail = () => {
   const navigate = useNavigate();
   const [datasets, setDatasets] = useState<IDataset[]>([]);
   const [isShowConDelModal, setIsShowConDelModal] = useState(false);
-  const { detail, status: detailStatus, deleteStatus } = useSelector(buyOrderSelector);
+  const { detail, detailStatus, deleteStatus } = useSelector(buyOrderSelector);
   const { status: countryStatus, countryMap } = useSelector(countrySelector);
   const { all: allDatasets, status: datasetStatus } = useSelector(datasetSelector);
 

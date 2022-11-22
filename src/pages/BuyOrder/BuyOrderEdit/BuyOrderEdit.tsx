@@ -15,7 +15,7 @@ const BuyOrderEdit = () => {
   const params = useParams();
   const navigate = useNavigate();
   const { updateStatus } = useSelector(buyOrderSelector);
-  const { detail, status: detailStatus } = useSelector(buyOrderSelector);
+  const { detail, detailStatus } = useSelector(buyOrderSelector);
 
   useEffect(() => {
     if (updateStatus === 'success') {

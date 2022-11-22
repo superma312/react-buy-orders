@@ -1,14 +1,12 @@
 import React, { ChangeEvent, useEffect, useState, FC } from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Button from 'react-bootstrap/Button';
 import Badge from 'react-bootstrap/Badge';
 import { useSelector } from 'react-redux';
 import dayjs from 'dayjs';
 import Form from 'react-bootstrap/Form';
-import Spinner from 'react-bootstrap/Spinner';
 
-import { IBuyOrder, IBuyOrderPartial } from '../../../store/reducers/buy-order';
+import { IBuyOrderPartial } from '../../../store/reducers/buy-order';
 import { countrySelector } from '../../../store/reducers/country';
 import { datasetSelector } from '../../../store/reducers/dataset';
 

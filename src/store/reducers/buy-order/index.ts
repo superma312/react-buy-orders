@@ -21,9 +21,11 @@ export type IBuyOrderPartial = Partial<IBuyOrder>;
 
 export interface IBuyOrderState {
   all: IBuyOrder[] | null;
-  status: TAPIStatus;
-  error: string | null;
+  allStatus: TAPIStatus;
+  allError: string | null;
   detail: IBuyOrder | null;
+  detailStatus: TAPIStatus;
+  detailError: string | null;
   updateStatus: TAPIStatus;
   updateError: string | null;
   createStatus: TAPIStatus;
@@ -34,9 +36,11 @@ export interface IBuyOrderState {
 
 const initialState: IBuyOrderState = {
   all: null,
-  status: null,
-  error: null,
+  allStatus: null,
+  allError: null,
   detail: null,
+  detailStatus: null,
+  detailError: null,
   updateStatus: null,
   updateError: null,
   createStatus: null,
@@ -52,36 +56,37 @@ const buyOrderSlice = createSlice({
   extraReducers: builder => {
     builder
       .addCase(getAllBuyOrders.pending, state => {
-        state.status = "pending";
+        state.allStatus = "pending";
       })
       .addCase(getAllBuyOrders.fulfilled, (state, { payload }) => {
-        state.status = "success";
+        state.allStatus = "success";
         state.all = payload;
-        state.error = null;
+        state.allError = null;
       })
       .addCase(getAllBuyOrders.rejected, (state, { error }) => {
-        state.status = "failure";
+        state.allStatus = "failure";
         state.all = null;
-        state.error = error.message || "Unknown Error";
+        state.allError = error.message || "Unknown Error";
         console.error("getAllBuyOrders error: ", error);
       })
 
+      // get by id
       .addCase(getBuyOrderById.pending, state => {
-        state.status = "pending";
+        state.detailStatus = "pending";
       })
       .addCase(getBuyOrderById.fulfilled, (state, { payload }) => {
-        state.status = "success";
+        state.detailStatus = "success";
         state.detail = payload;
-        state.error = null;
+        state.detailError = null;
       })
       .addCase(getBuyOrderById.rejected, (state, { error }) => {
-        state.status = "failure";
+        state.detailStatus = "failure";
         state.detail = null;
-        state.error = error.message || "Unknown Error";
+        state.detailError = error.message || "Unknown Error";
         console.error("getBuyOrderById error: ", error);
       })
 
-      // update
+      // update by id
       .addCase(updateBuyOrderById.pending, state => {
         state.updateStatus = "pending";
       })
@@ -109,7 +114,7 @@ const buyOrderSlice = createSlice({
         console.error("createBuyOrder error: ", error);
       })
       
-      // delete
+      // delete by id
       .addCase(deleteBuyOrderById.pending, state => {
         state.deleteStatus = "pending";
       })

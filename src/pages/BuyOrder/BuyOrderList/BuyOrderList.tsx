@@ -17,7 +17,7 @@ import { thunkDispatch } from '../../../store/store';
 import './BuyOrderList.scss';
 
 const BuyOrderList = () => {
-  const { all: buyOrders, status: buyOrdersStatus } = useSelector(buyOrderSelector);
+  const { all: buyOrders, allStatus: buyOrdersStatus } = useSelector(buyOrderSelector);
   const { status: countryStatus, countryFilters } = useSelector(countrySelector);
   const [isLoaded, setIsLoaded] = useState(false);
 
