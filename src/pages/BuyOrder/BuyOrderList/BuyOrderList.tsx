@@ -3,20 +3,20 @@ import { useSelector } from 'react-redux';
 import Alert from 'react-bootstrap/Alert';
 import { Link } from 'react-router-dom';
 
-import Layout from '../../components/Layout/Layout';
-import CountryFilter from '../../components/CountryFilter/CountryFilter';
-import BuyOrderItem from '../../components/BuyOrder/BuyOrderItem/BuyOrderList';
-import { buyOrderSelector } from '../../store/reducers/buy-order';
-import { getAllBuyOrders } from '../../store/reducers/buy-order/actions';
-import Loader from '../../components/Loader/Loader';
-import CountryListLabel from '../../components/CountryListLabel/CountryListLabel';
-import { checkCountryAvailability } from '../../utils/filter';
-import { countrySelector } from '../../store/reducers/country';
-import { thunkDispatch } from '../../store/store';
+import Layout from '../../../components/Layout/Layout';
+import CountryFilter from '../../../components/CountryFilter/CountryFilter';
+import BuyOrderItem from '../../../components/BuyOrder/BuyOrderItem/BuyOrderList';
+import { buyOrderSelector } from '../../../store/reducers/buy-order';
+import { getAllBuyOrders } from '../../../store/reducers/buy-order/actions';
+import Loader from '../../../components/Loader/Loader';
+import CountryListLabel from '../../../components/CountryListLabel/CountryListLabel';
+import { checkCountryAvailability } from '../../../utils/filter';
+import { countrySelector } from '../../../store/reducers/country';
+import { thunkDispatch } from '../../../store/store';
 
-import './BuyOrders.scss';
+import './BuyOrderList.scss';
 
-const BuyOrders = () => {
+const BuyOrderList = () => {
   const { all: buyOrders, status: buyOrdersStatus } = useSelector(buyOrderSelector);
   const { status: countryStatus, countryFilters } = useSelector(countrySelector);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -66,4 +66,4 @@ const BuyOrders = () => {
   );
 };
 
-export default BuyOrders;
+export default BuyOrderList;

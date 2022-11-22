@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
 import Navigation from './components/Navigation/Navigation';
 import Datasets from './pages/Datasets/Datasets';
-import BuyOrders from './pages/BuyOrders/BuyOrders';
+import BuyOrderList from './pages/BuyOrder/BuyOrderList/BuyOrderList';
 import BuyOrderDetail from './pages/BuyOrder/BuyOrderDetail/BuyOrderDetail';
 import { getAllCountries } from './store/reducers/country/actions';
 import { thunkDispatch } from './store/store';
@@ -29,7 +29,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Navigate to="/datasets" />} />
           <Route path="/datasets" element={<Datasets />} />
-          <Route path="/buy-orders" element={<BuyOrders />} />
+          <Route path="/buy-orders" element={<BuyOrderList />} />
           <Route path="/buy-orders/new" element={<BuyOrderCreate />} />
           <Route path="/buy-orders/:id" element={<BuyOrderDetail />} />
           <Route path="/buy-orders/:id/edit" element={<BuyOrderEdit />} />
