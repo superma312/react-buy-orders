@@ -1,0 +1,10 @@
+.country-filter-container {
+  position: fixed;
+  bottom: 30px;
+  width: 100%;
+  left: calc(50% - 150px);
+
+  .wrapper {
+    width: 300px;
+  }
+}
