@@ -25,7 +25,7 @@ const DatasetCard = ({ data, countryMap }: IDatasetCardProps) => {
           <Card.Title className='ms-3'>{data.label}</Card.Title>
         </div>
         <div className='mb-2'>
-          <u className='text-secondary mb-1'>Dataset Description</u>
+          <u className='text-secondary mb-2'>Dataset Description</u>
           <div>{data.description}</div>
         </div>
         <div className='mb-2 d-flex justify-content-between'>
@@ -37,7 +37,7 @@ const DatasetCard = ({ data, countryMap }: IDatasetCardProps) => {
           <div>{data.recordCount} records</div>
         </div>
         <div>
-          <u className='text-secondary mb-1'>Included countries</u>
+          <u className='text-secondary mb-2'>Included countries</u>
           <div>
             {data.countryCodes &&
               data.countryCodes.map((countryCode) => (

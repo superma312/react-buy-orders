@@ -101,23 +101,23 @@ const BuyOrderDetail = () => {
       <div className='bg-gray-black p-4'>
         <Row>
           <Col xs={12} md={6} className='mb-3'>
-            <u className='text-secondary'>Order name</u>
+            <u className='text-secondary mb-2'>Order name</u>
             <div>{detail.name}</div>
           </Col>
           <Col xs={12} md={6} className='mb-3'>
-            <u className='text-secondary'>Date Created</u>
+            <u className='text-secondary mb-2'>Date Created</u>
             <div>{dayjs(detail.createdAt).format('MM/DD/YYYY')}</div>
           </Col>
         </Row>
         <Row>
           <Col xs={12} md={6} className='mb-3'>
-            <u className='text-secondary'>Order Budget</u>
+            <u className='text-secondary mb-2'>Order Budget</u>
             <div>${detail.budget.toFixed(2)}</div>
           </Col>
         </Row>
         <Row>
           <Col xs={12} className='mb-3'>
-            <u className='text-secondary'>Included datasets</u>
+            <u className='text-secondary mb-2'>Included datasets</u>
             <Row>
               {detail.datasetIds.map((datasetId) => (
                 <Col

@@ -43,7 +43,7 @@ const CountryFilter = () => {
   return (
     <div className='country-filter-container'>
       <div className='border border-dark wrapper p-3 bg-gray-white'>
-        <u className='text-secondary'>Included countries:</u>
+        <u className='text-secondary mb-2'>Included countries:</u>
         <div className='country-list'>
           {countries &&
             countries.map((country) => (
