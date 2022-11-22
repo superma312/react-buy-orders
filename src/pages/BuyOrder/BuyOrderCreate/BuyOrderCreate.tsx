@@ -13,10 +13,15 @@ import {
 import { createBuyOrder } from '../../../store/reducers/buy-order/actions';
 import { thunkDispatch } from '../../../store/store';
 import { getAllDatasets } from '../../../store/reducers/dataset/actions';
+import { datasetSelector } from '../../../store/reducers/dataset';
+import Loader from '../../../components/Loader/Loader';
+import { countrySelector } from '../../../store/reducers/country';
 
 const BuyOrderCreate = () => {
   const navigate = useNavigate();
   const { createStatus } = useSelector(buyOrderSelector);
+  const { status: datasetAPIStatus } = useSelector(datasetSelector);
+  const { status: countryAPIStatus } = useSelector(countrySelector);
 
   useEffect(() => {
     const fetchData = () => {
@@ -42,8 +47,12 @@ const BuyOrderCreate = () => {
     );
   };
 
+  if (datasetAPIStatus === 'pending' || countryAPIStatus === 'pending') {
+    return <Loader />;
+  }
+
   return (
-    <Layout title="New Buy Order">
+    <Layout title='New Buy Order'>
       <BuyOrderForm
         details={initialBuyOrderData}
         isSubmiting={createStatus === 'pending'}

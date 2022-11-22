@@ -17,12 +17,13 @@ import {
 import { thunkDispatch } from '../../../store/store';
 import { getAllDatasets } from '../../../store/reducers/dataset/actions';
 import Loader from '../../../components/Loader/Loader';
+import { countrySelector } from '../../../store/reducers/country';
 
 const BuyOrderEdit = () => {
   const params = useParams();
   const navigate = useNavigate();
-  const { updateStatus } = useSelector(buyOrderSelector);
-  const { detail, detailStatus } = useSelector(buyOrderSelector);
+  const { detail, detailStatus: detailAPIStatus, updateStatus } = useSelector(buyOrderSelector);
+  const { status: countryAPIStatus } = useSelector(countrySelector);
 
   // Redirect to the detail page after updating
   useEffect(() => {
@@ -51,20 +52,20 @@ const BuyOrderEdit = () => {
     );
   };
 
-  if (detailStatus === 'pending') {
+  if (detailAPIStatus === 'pending' || countryAPIStatus === 'pending') {
     return <Loader />;
   }
 
   if (!detail) {
     return (
-      <Alert variant="warning" className="m-2">
+      <Alert variant='warning' className='m-2'>
         No data
       </Alert>
     );
   }
 
   return (
-    <Layout title="Edit Buy Order">
+    <Layout title='Edit Buy Order'>
       <BuyOrderForm
         details={detail}
         isSubmiting={updateStatus === 'pending'}

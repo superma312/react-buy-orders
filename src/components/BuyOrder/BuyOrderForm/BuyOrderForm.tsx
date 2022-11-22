@@ -5,6 +5,7 @@ import Badge from 'react-bootstrap/Badge';
 import { useSelector } from 'react-redux';
 import dayjs from 'dayjs';
 import Form from 'react-bootstrap/Form';
+import Alert from 'react-bootstrap/Alert';
 
 import { IBuyOrderPartial } from '../../../store/reducers/buy-order';
 import { countrySelector } from '../../../store/reducers/country';
@@ -36,6 +37,7 @@ const BuyOrderForm: FC<IBuyOrderFormProps> = ({
 }) => {
   const [formData, setFormData] =
     useState<IBuyOrderPartial>(initialBuyOrderData);
+  const [isRequiredFields, setIsRequiredFields] = useState(false);
   const { all: allCountries } = useSelector(countrySelector);
   const { all: allDatasets } = useSelector(datasetSelector);
 
@@ -94,8 +96,11 @@ const BuyOrderForm: FC<IBuyOrderFormProps> = ({
 
   const handleSubmit = () => {
     if (validateBuyOrderForm(formData)) {
+      setIsRequiredFields(false);
       onSubmit(formData);
     }
+
+    setIsRequiredFields(true);
   };
 
   const isEdit = !!details.id;
@@ -204,6 +209,11 @@ const BuyOrderForm: FC<IBuyOrderFormProps> = ({
       </Row>
       <Row>
         <Col xs={12}>
+          {isRequiredFields && (
+            <Alert variant='warning' className='mb-2 text-center'>
+              Please input all fields!
+            </Alert>
+          )}
           <div className='d-flex justify-content-center'>
             <ButtonWithLoading
               label={actionBtnLabel}

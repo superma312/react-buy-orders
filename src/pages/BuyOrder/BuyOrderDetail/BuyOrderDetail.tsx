@@ -90,52 +90,52 @@ const BuyOrderDetail = () => {
 
   if (!detail) {
     return (
-      <Alert variant="warning" className="m-2">
+      <Alert variant='warning' className='m-2'>
         No data
       </Alert>
     );
   }
 
   return (
-    <Layout title="Buy Order Details">
-      <div className="bg-gray-black p-4">
+    <Layout title='Buy Order Details'>
+      <div className='bg-gray-black p-4'>
         <Row>
-          <Col xs={12} md={6} className="mb-3">
-            <u className="text-secondary">Order name</u>
+          <Col xs={12} md={6} className='mb-3'>
+            <u className='text-secondary'>Order name</u>
             <div>{detail.name}</div>
           </Col>
-          <Col xs={12} md={6} className="mb-3">
-            <u className="text-secondary">Date Created</u>
+          <Col xs={12} md={6} className='mb-3'>
+            <u className='text-secondary'>Date Created</u>
             <div>{dayjs(detail.createdAt).format('MM/DD/YYYY')}</div>
           </Col>
         </Row>
         <Row>
-          <Col xs={12} md={6} className="mb-3">
-            <u className="text-secondary">Order Budget</u>
+          <Col xs={12} md={6} className='mb-3'>
+            <u className='text-secondary'>Order Budget</u>
             <div>${detail.budget.toFixed(2)}</div>
           </Col>
         </Row>
         <Row>
-          <Col xs={12} className="mb-3">
-            <u className="text-secondary">Included datasets</u>
+          <Col xs={12} className='mb-3'>
+            <u className='text-secondary'>Included datasets</u>
             <Row>
               {detail.datasetIds.map((datasetId) => (
                 <Col
                   xs={12}
                   md={6}
                   key={`dataset_${datasetId}`}
-                  className="mb-3"
+                  className='mb-3'
                 >
                   {datasetsMap[datasetId] && (
-                    <div className="d-flex align-items-center bg-gray-white p-2">
+                    <div className='d-flex align-items-center bg-gray-white p-2'>
                       <img
                         src={datasetsMap[datasetId].thumbnailUrl}
-                        alt="thumbnail"
-                        className="me-2 thumbnail"
+                        alt='thumbnail'
+                        className='me-2 thumbnail'
                       />
                       <div>
                         <div>{datasetsMap[datasetId].label}</div>
-                        <div className="fw-lighter cost">
+                        <div className='fw-lighter cost'>
                           ${datasetsMap[datasetId].costPerRecord.toFixed(2)} per
                           record
                         </div>
@@ -148,15 +148,15 @@ const BuyOrderDetail = () => {
           </Col>
         </Row>
         <Row>
-          <Col xs={12} md={6} className="mb-3">
-            <u className="text-secondary">Date Created</u>
+          <Col xs={12} md={6} className='mb-3'>
+            <u className='text-secondary'>Date Created</u>
             <div>
               {detail.countries &&
                 detail.countries.map((countryCode) => (
                   <Badge
                     pill
-                    bg="light"
-                    className="mx-1 text-dark bg-gray-white"
+                    bg='light'
+                    className='mx-1 text-dark bg-gray-white'
                     key={`country_${countryCode}`}
                   >
                     {countryMap[countryCode]}
@@ -166,16 +166,16 @@ const BuyOrderDetail = () => {
           </Col>
         </Row>
         <Row>
-          <Col xs={12} md={{ span: 6, offset: 6 }} className="mt-4">
+          <Col xs={12} md={{ span: 6, offset: 6 }} className='mt-4'>
             <Button
-              className="me-2"
-              variant="secondary"
+              className='me-2'
+              variant='secondary'
               href={`/buy-orders/${params.id}/edit`}
             >
               Edit Order
             </Button>
             <ButtonWithLoading
-              label="Delete Order"
+              label='Delete Order'
               isSubmiting={deleteStatus === 'pending'}
               onClick={() => setIsShowConDelModal(true)}
             />
@@ -185,7 +185,7 @@ const BuyOrderDetail = () => {
         <Modal
           show={isShowConDelModal}
           onHide={() => setIsShowConDelModal(false)}
-          backdrop="static"
+          backdrop='static'
           keyboard={false}
         >
           <Modal.Header closeButton>
@@ -194,12 +194,12 @@ const BuyOrderDetail = () => {
           <Modal.Body>Are you sure to delete this order?</Modal.Body>
           <Modal.Footer>
             <Button
-              variant="secondary"
+              variant='secondary'
               onClick={() => setIsShowConDelModal(false)}
             >
               Close
             </Button>
-            <Button variant="primary" onClick={handleDeleteOrder}>
+            <Button variant='primary' onClick={handleDeleteOrder}>
               Yes
             </Button>
           </Modal.Footer>

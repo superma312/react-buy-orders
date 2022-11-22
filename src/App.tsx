@@ -23,16 +23,16 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
+    <div className='App'>
       <BrowserRouter>
         <Navigation />
         <Routes>
-          <Route path="/" element={<Navigate to="/datasets" />} />
-          <Route path="/datasets" element={<Datasets />} />
-          <Route path="/buy-orders" element={<BuyOrderList />} />
-          <Route path="/buy-orders/new" element={<BuyOrderCreate />} />
-          <Route path="/buy-orders/:id" element={<BuyOrderDetail />} />
-          <Route path="/buy-orders/:id/edit" element={<BuyOrderEdit />} />
+          <Route path='/' element={<Navigate to='/datasets' />} />
+          <Route path='/datasets' element={<Datasets />} />
+          <Route path='/buy-orders' element={<BuyOrderList />} />
+          <Route path='/buy-orders/new' element={<BuyOrderCreate />} />
+          <Route path='/buy-orders/:id' element={<BuyOrderDetail />} />
+          <Route path='/buy-orders/:id/edit' element={<BuyOrderEdit />} />
         </Routes>
       </BrowserRouter>
     </div>
