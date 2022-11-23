@@ -1,9 +1,9 @@
 import React from 'react';
-
 import Card from 'react-bootstrap/Card';
 import Badge from 'react-bootstrap/Badge';
 
-import { IDataset } from '../../../store/reducers/dataset';
+import { IDataset } from '../../../types/Dataset';
+
 import './DatasetCard.scss';
 
 interface IDatasetCard extends IDataset {
@@ -18,33 +18,37 @@ interface IDatasetCardProps {
 
 const DatasetCard = ({ data, countriesMap }: IDatasetCardProps) => {
   return (
-    <Card className='dataset-card-container bg-gray-black'>
+    <Card className="border-0 rounded-0 bg-gray-black">
       <Card.Body>
-        <div className='d-flex align-items-center mb-2'>
-          <img src={data.thumbnailUrl} className='thumbnail' alt='Thumbnail' />
-          <Card.Title className='ms-3'>{data.label}</Card.Title>
+        <div className="d-flex align-items-center mb-2">
+          <img src={data.thumbnailUrl} className="thumbnail" alt="Thumbnail" />
+          <Card.Title className="ms-3">{data.label}</Card.Title>
         </div>
-        <div className='mb-2'>
-          <u className='text-secondary mb-2'>Dataset Description</u>
+        <div className="mb-2">
+          <label className="text-secondary mb-2">
+            <u>Dataset Description</u>
+          </label>
           <div>{data.description}</div>
         </div>
-        <div className='mb-2 d-flex justify-content-between'>
-          <u className='text-secondary'>Cost Per Record</u>
+        <div className="mb-2 d-flex justify-content-between">
+          <u className="text-secondary">Cost Per Record</u>
           <div>${data.costPerRecord.toFixed(2)}</div>
         </div>
-        <div className='mb-2 d-flex justify-content-between'>
-          <u className='text-secondary'>Available Records</u>
+        <div className="mb-2 d-flex justify-content-between">
+          <u className="text-secondary">Available Records</u>
           <div>{data.recordCount} records</div>
         </div>
         <div>
-          <u className='text-secondary mb-2'>Included countries</u>
+          <label className="text-secondary mb-2">
+            <u>Included countries</u>
+          </label>
           <div>
             {data.countryCodes &&
               data.countryCodes.map((countryCode) => (
                 <Badge
                   pill
-                  bg='light'
-                  className='mx-1 text-dark bg-gray-white'
+                  bg="light"
+                  className="mx-1 text-dark bg-gray-white"
                   key={`country_${countryCode}`}
                 >
                   {countriesMap[countryCode]}

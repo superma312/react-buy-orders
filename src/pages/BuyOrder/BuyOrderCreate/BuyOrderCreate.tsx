@@ -5,16 +5,14 @@ import { useSelector } from 'react-redux';
 import BuyOrderForm, {
   initialBuyOrderData,
 } from '../../../components/BuyOrder/BuyOrderForm/BuyOrderForm';
-import {
-  buyOrderSelector,
-  IBuyOrderPartial,
-} from '../../../store/reducers/buy-order';
+import { buyOrderSelector } from '../../../store/reducers/buy-order';
 import { createBuyOrder } from '../../../store/reducers/buy-order/actions';
 import { thunkDispatch } from '../../../store/store';
 import { getAllDatasets } from '../../../store/reducers/dataset/actions';
 import { datasetSelector } from '../../../store/reducers/dataset';
 import Loader from '../../../components/Loader/Loader';
 import { countrySelector } from '../../../store/reducers/country';
+import { IBuyOrderPartial } from '../../../types/BuyOrder';
 
 const BuyOrderCreate = () => {
   const navigate = useNavigate();
@@ -52,7 +50,8 @@ const BuyOrderCreate = () => {
 
   return (
     <>
-      <h1 className='text-center my-5'>New Buy Order</h1>
+      <h1 className="text-center my-5">New Buy Order</h1>
+
       <BuyOrderForm
         details={initialBuyOrderData}
         isSubmiting={createStatus === 'pending'}

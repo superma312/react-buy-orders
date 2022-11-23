@@ -7,10 +7,10 @@ import dayjs from 'dayjs';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 
-import { IBuyOrderPartial } from '../../../store/reducers/buy-order';
 import { countrySelector } from '../../../store/reducers/country';
 import { datasetSelector } from '../../../store/reducers/dataset';
 import Button from '../../Button/Button';
+import { IBuyOrderPartial } from '../../../types/BuyOrder';
 
 import './BuyOrderForm.scss';
 
@@ -109,15 +109,22 @@ const BuyOrderForm: FC<IBuyOrderFormProps> = ({
   const actionBtnLabel = isEdit ? 'Save' : 'Create Order';
 
   return (
-    <Form noValidate validated={validated} onSubmit={handleSubmit} className='bg-gray-black p-4'>
+    <Form
+      noValidate
+      validated={validated}
+      onSubmit={handleSubmit}
+      className="bg-gray-black p-4"
+    >
       <Row>
-        <Form.Group as={Col} xs={12} md={6} className='mb-3'>
-          <Form.Label><u className='text-secondary'>Order name</u></Form.Label>
+        <Form.Group as={Col} xs={12} md={6} className="mb-3">
+          <Form.Label>
+            <u className="text-secondary">Order name</u>
+          </Form.Label>
           <Form.Control
-            type='text'
+            type="text"
             required
             value={formData.name ? formData.name : ''}
-            placeholder='Order name'
+            placeholder="Order name"
             onChange={(event) => handleChangeValue('name', event)}
           />
           <Form.Control.Feedback type="invalid">
@@ -125,30 +132,38 @@ const BuyOrderForm: FC<IBuyOrderFormProps> = ({
           </Form.Control.Feedback>
         </Form.Group>
         {isEdit && (
-          <Form.Group as={Col} xs={12} md={6} className='mb-3'>
-            <Form.Label><u className='text-secondary mb-2'>Date Created</u></Form.Label>
+          <Form.Group as={Col} xs={12} md={6} className="mb-3">
+            <Form.Label>
+              <u className="text-secondary mb-2">Date Created</u>
+            </Form.Label>
             <Form.Control
-              type='text'
+              type="text"
               readOnly
               disabled
-              value={formData.createdAt
-                ? dayjs(formData?.createdAt).format('MM/DD/YYYY')
-                : ''}
+              value={
+                formData.createdAt
+                  ? dayjs(formData?.createdAt).format('MM/DD/YYYY')
+                  : ''
+              }
             />
           </Form.Group>
         )}
       </Row>
       <Row>
-        <Form.Group as={Col} xs={12} md={6} className='mb-3'>
-          <Form.Label><u className='text-secondary mb-2'>Order Budget</u></Form.Label>
+        <Form.Group as={Col} xs={12} md={6} className="mb-3">
+          <Form.Label>
+            <u className="text-secondary mb-2">Order Budget</u>
+          </Form.Label>
           <InputGroup hasValidation>
             <InputGroup.Text>$</InputGroup.Text>
             <Form.Control
-              type='number'
+              type="number"
               required
               value={formData.budget ? formData.budget : 0}
-              isInvalid={validated && (!formData.budget || formData.budget <= 0)}
-              placeholder='Order Budget'
+              isInvalid={
+                validated && (!formData.budget || formData.budget <= 0)
+              }
+              placeholder="Order Budget"
               onChange={(event) => handleChangeValue('budget', event, 'number')}
             />
             <Form.Control.Feedback type="invalid">
@@ -158,8 +173,10 @@ const BuyOrderForm: FC<IBuyOrderFormProps> = ({
         </Form.Group>
       </Row>
       <Row>
-        <Form.Group as={Col} xs={12} className='mb-3'>
-          <Form.Label><u className='text-secondary mb-2'>Included datasets</u></Form.Label>
+        <Form.Group as={Col} xs={12} className="mb-3">
+          <Form.Label>
+            <u className="text-secondary mb-2">Included datasets</u>
+          </Form.Label>
           <Row>
             {allDatasets &&
               allDatasets.map((dataset) => (
@@ -167,7 +184,7 @@ const BuyOrderForm: FC<IBuyOrderFormProps> = ({
                   xs={12}
                   md={6}
                   key={`dataset_${dataset.id}`}
-                  className='mb-3'
+                  className="mb-3"
                 >
                   <div
                     className={`d-flex align-items-center bg-gray-white p-2 cursor-pointer ${
@@ -179,12 +196,12 @@ const BuyOrderForm: FC<IBuyOrderFormProps> = ({
                   >
                     <img
                       src={dataset.thumbnailUrl}
-                      alt='thumbnail'
-                      className='me-2 thumbnail'
+                      alt="thumbnail"
+                      className="me-2 thumbnail"
                     />
                     <div>
                       <div>{dataset.label}</div>
-                      <div className='fw-lighter cost'>
+                      <div className="fw-lighter cost">
                         ${dataset.costPerRecord.toFixed(2)} per record
                       </div>
                     </div>
@@ -192,21 +209,36 @@ const BuyOrderForm: FC<IBuyOrderFormProps> = ({
                 </Col>
               ))}
           </Row>
-          <Form.Control type='text' value={formData.datasetIds && formData.datasetIds.length > 0 ? 'valid' : ''} required hidden isInvalid={validated && (!formData.datasetIds || formData.datasetIds.length === 0)} />
+          <Form.Control
+            type="text"
+            value={
+              formData.datasetIds && formData.datasetIds.length > 0
+                ? 'valid'
+                : ''
+            }
+            required
+            hidden
+            isInvalid={
+              validated &&
+              (!formData.datasetIds || formData.datasetIds.length === 0)
+            }
+          />
           <Form.Control.Feedback type="invalid">
             Please choose one dataset at least.
           </Form.Control.Feedback>
         </Form.Group>
       </Row>
       <Row>
-        <Form.Group as={Col} xs={12} className='mb-3'>
-          <Form.Label><u className='text-secondary'>Included countries</u></Form.Label>
+        <Form.Group as={Col} xs={12} className="mb-3">
+          <Form.Label>
+            <u className="text-secondary">Included countries</u>
+          </Form.Label>
           <div>
             {allCountries &&
               allCountries.map((country) => (
                 <Badge
                   pill
-                  bg='light'
+                  bg="light"
                   className={`mx-1 text-dark bg-gray-white cursor-pointer ${
                     formData.countries?.indexOf(country.countryCode) === -1
                       ? ''
@@ -219,7 +251,17 @@ const BuyOrderForm: FC<IBuyOrderFormProps> = ({
                 </Badge>
               ))}
           </div>
-          <Form.Control type='text' hidden value={formData.countries && formData.countries.length > 0 ? 'valid' : ''} isInvalid={validated && (!formData.countries || formData.countries.length === 0)} />
+          <Form.Control
+            type="text"
+            hidden
+            value={
+              formData.countries && formData.countries.length > 0 ? 'valid' : ''
+            }
+            isInvalid={
+              validated &&
+              (!formData.countries || formData.countries.length === 0)
+            }
+          />
           <Form.Control.Feedback type="invalid">
             Please choose one country at least.
           </Form.Control.Feedback>
@@ -227,9 +269,9 @@ const BuyOrderForm: FC<IBuyOrderFormProps> = ({
       </Row>
       <Row>
         <Col xs={12}>
-          <div className='d-flex justify-content-center'>
+          <div className="d-flex justify-content-center">
             <Button
-              type='submit'
+              type="submit"
               label={actionBtnLabel}
               isSubmiting={isSubmiting}
             />

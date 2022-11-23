@@ -9,22 +9,22 @@ interface IButtonProps {
   onClick?: () => void;
 }
 
-const Button: FC<IButtonProps> = ({
-  type,
-  label,
-  isSubmiting,
-  onClick,
-}) => {
+const Button: FC<IButtonProps> = ({ type, label, isSubmiting, onClick }) => {
   return (
-    <BootstrapButton type={type ?? 'button'} variant='secondary' onClick={onClick ? onClick : () => {}} disabled={isSubmiting}>
+    <BootstrapButton
+      type={type ?? 'button'}
+      variant="secondary"
+      onClick={onClick ? onClick : () => {}}
+      disabled={isSubmiting}
+    >
       {isSubmiting ? (
         <>
           <Spinner
-            as='span'
-            animation='grow'
-            size='sm'
-            role='status'
-            aria-hidden='true'
+            as="span"
+            animation="grow"
+            size="sm"
+            role="status"
+            aria-hidden="true"
           />
           Loading...
         </>

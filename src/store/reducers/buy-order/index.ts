@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import { TAPIStatus } from '../../../types/api';
+import { IBuyOrder } from '../../../types/BuyOrder';
 import { RootState } from '../../store';
 import {
   createBuyOrder,
@@ -9,21 +10,6 @@ import {
   getBuyOrderById,
   updateBuyOrderById,
 } from './actions';
-
-type Partial<T> = {
-  [P in keyof T]: T[P] | null;
-};
-
-export interface IBuyOrder {
-  id: string;
-  name: string;
-  createdAt: Date;
-  datasetIds: number[];
-  countries: string[];
-  budget: number;
-}
-
-export type IBuyOrderPartial = Partial<IBuyOrder>;
 
 export interface IBuyOrderState {
   all: IBuyOrder[] | null;

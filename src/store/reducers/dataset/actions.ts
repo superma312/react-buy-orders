@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import { IDataset } from '.';
 import { get } from '../../../services/api/restHelopers';
+import { IDataset } from '../../../types/Dataset';
 
 export const getAllDatasets = createAsyncThunk('datasets/all', async () => {
   try {

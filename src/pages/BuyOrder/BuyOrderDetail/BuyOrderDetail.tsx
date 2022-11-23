@@ -18,8 +18,9 @@ import { buyOrderSelector } from '../../../store/reducers/buy-order';
 import Loader from '../../../components/Loader/Loader';
 import { countrySelector } from '../../../store/reducers/country';
 import { getAllDatasets } from '../../../store/reducers/dataset/actions';
-import { datasetSelector, IDataset } from '../../../store/reducers/dataset';
+import { datasetSelector } from '../../../store/reducers/dataset';
 import Button from '../../../components/Button/Button';
+import { IDataset } from '../../../types/Dataset';
 
 import './BuyOrderDetail.scss';
 
@@ -89,7 +90,7 @@ const BuyOrderDetail = () => {
 
   if (!detail) {
     return (
-      <Alert variant='warning' className='m-2'>
+      <Alert variant="warning" className="m-2">
         No data
       </Alert>
     );
@@ -97,45 +98,54 @@ const BuyOrderDetail = () => {
 
   return (
     <>
-      <h1 className='text-center my-5'>Buy Order Details</h1>
-      <div className='bg-gray-black p-4'>
+      <h1 className="text-center my-5">Buy Order Details</h1>
+
+      <div className="bg-gray-black p-4">
         <Row>
-          <Col xs={12} md={6} className='mb-3'>
-            <u className='text-secondary mb-2'>Order name</u>
+          <Col xs={12} md={6} className="mb-3">
+            <label className="text-secondary mb-2">
+              <u>Order name</u>
+            </label>
             <div>{detail.name}</div>
           </Col>
-          <Col xs={12} md={6} className='mb-3'>
-            <u className='text-secondary mb-2'>Date Created</u>
+          <Col xs={12} md={6} className="mb-3">
+            <label className="text-secondary mb-2">
+              <u>Date Created</u>
+            </label>
             <div>{dayjs(detail.createdAt).format('MM/DD/YYYY')}</div>
           </Col>
         </Row>
         <Row>
-          <Col xs={12} md={6} className='mb-3'>
-            <u className='text-secondary mb-2'>Order Budget</u>
+          <Col xs={12} md={6} className="mb-3">
+            <label className="text-secondary mb-2">
+              <u>Order Budget</u>
+            </label>
             <div>${detail.budget.toFixed(2)}</div>
           </Col>
         </Row>
         <Row>
-          <Col xs={12} className='mb-3'>
-            <u className='text-secondary mb-2'>Included datasets</u>
+          <Col xs={12} className="mb-3">
+            <label className="text-secondary mb-2">
+              <u>Included datasets</u>
+            </label>
             <Row>
               {detail.datasetIds.map((datasetId) => (
                 <Col
                   xs={12}
                   md={6}
                   key={`dataset_${datasetId}`}
-                  className='mb-3'
+                  className="mb-3"
                 >
                   {datasetsMap[datasetId] && (
-                    <div className='d-flex align-items-center bg-gray-white p-2'>
+                    <div className="d-flex align-items-center bg-gray-white p-2">
                       <img
                         src={datasetsMap[datasetId].thumbnailUrl}
-                        alt='thumbnail'
-                        className='me-2 thumbnail'
+                        alt="thumbnail"
+                        className="me-2 thumbnail"
                       />
                       <div>
                         <div>{datasetsMap[datasetId].label}</div>
-                        <div className='fw-lighter cost'>
+                        <div className="fw-lighter cost">
                           ${datasetsMap[datasetId].costPerRecord.toFixed(2)} per
                           record
                         </div>
@@ -148,15 +158,17 @@ const BuyOrderDetail = () => {
           </Col>
         </Row>
         <Row>
-          <Col xs={12} md={6} className='mb-3'>
-            <u className='text-secondary'>Date Created</u>
+          <Col xs={12} md={6} className="mb-3">
+            <label className="text-secondary mb-2">
+              <u>Date Created</u>
+            </label>
             <div>
               {detail.countries &&
                 detail.countries.map((countryCode) => (
                   <Badge
                     pill
-                    bg='light'
-                    className='mx-1 text-dark bg-gray-white'
+                    bg="light"
+                    className="mx-1 text-dark bg-gray-white"
                     key={`country_${countryCode}`}
                   >
                     {countriesMap[countryCode]}
@@ -166,16 +178,16 @@ const BuyOrderDetail = () => {
           </Col>
         </Row>
         <Row>
-          <Col xs={12} md={{ span: 6, offset: 6 }} className='mt-4'>
+          <Col xs={12} md={{ span: 6, offset: 6 }} className="mt-4">
             <BootstrapButton
-              className='me-2'
-              variant='secondary'
+              className="me-2"
+              variant="secondary"
               href={`/buy-orders/${params.id}/edit`}
             >
               Edit Order
             </BootstrapButton>
             <Button
-              label='Delete Order'
+              label="Delete Order"
               isSubmiting={deleteStatus === 'pending'}
               onClick={() => setIsShowConDelModal(true)}
             />
@@ -185,7 +197,7 @@ const BuyOrderDetail = () => {
         <Modal
           show={isShowConDelModal}
           onHide={() => setIsShowConDelModal(false)}
-          backdrop='static'
+          backdrop="static"
           keyboard={false}
         >
           <Modal.Header closeButton>
@@ -194,12 +206,12 @@ const BuyOrderDetail = () => {
           <Modal.Body>Are you sure to delete this order?</Modal.Body>
           <Modal.Footer>
             <BootstrapButton
-              variant='secondary'
+              variant="secondary"
               onClick={() => setIsShowConDelModal(false)}
             >
               Close
             </BootstrapButton>
-            <BootstrapButton variant='primary' onClick={handleDeleteOrder}>
+            <BootstrapButton variant="primary" onClick={handleDeleteOrder}>
               Yes
             </BootstrapButton>
           </Modal.Footer>

@@ -1,5 +1,3 @@
-import { ICountry } from '../store/reducers/country';
-
 export const checkCountryAvailability = (
   countryCodes: string[],
   countryMap: Record<string, boolean>
@@ -13,21 +11,4 @@ export const checkCountryAvailability = (
   }
 
   return false;
-};
-
-export const generateCountryListString = (
-  countries: ICountry[],
-  countryMap: Record<string, boolean>
-) => {
-  if (!countries || countries.length === 0) {
-    return '';
-  }
-
-  const filteredCountries = countries.filter((c) => countryMap[c.countryCode]);
-
-  if (filteredCountries.length === 0) {
-    return '';
-  }
-
-  return filteredCountries.map((c) => c.name).join(' & ');
 };

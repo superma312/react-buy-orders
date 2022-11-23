@@ -4,7 +4,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import dayjs from 'dayjs';
 
-import { IBuyOrder } from '../../../store/reducers/buy-order';
+import { IBuyOrder } from '../../../types/BuyOrder';
 
 interface IBuyOrderItemProps {
   data: IBuyOrder;
@@ -12,18 +12,24 @@ interface IBuyOrderItemProps {
 
 const BuyOrderItem = ({ data }: IBuyOrderItemProps) => {
   return (
-    <Container className='bg-gray-black p-3' fluid>
+    <Container className="bg-gray-black p-3" fluid>
       <Row>
         <Col sm>
-          <u className='text-secondary mb-2'>Order name</u>
+          <label className="text-secondary mb-2">
+            <u>Order name</u>
+          </label>
           <div>{data.name}</div>
         </Col>
         <Col sm>
-          <u className='text-secondary mb-2'>Date Created</u>
+          <label className="text-secondary mb-2">
+            <u>Date Created</u>
+          </label>
           <div>{dayjs(data.createdAt).format('MM/DD/YYYY')}</div>
         </Col>
         <Col sm>
-          <u className='text-secondary mb-2'>Budget</u>
+          <label className="text-secondary mb-2">
+            <u>Budget</u>
+          </label>
           <div>${data.budget.toFixed(2)}</div>
         </Col>
       </Row>

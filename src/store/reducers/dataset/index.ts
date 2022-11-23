@@ -1,17 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import { TAPIStatus } from '../../../types/api';
+import { IDataset } from '../../../types/Dataset';
 import { RootState } from '../../store';
 import { getAllDatasets } from './actions';
-
-export interface IDataset {
-  id: number;
-  name: string;
-  label: string;
-  description?: string;
-  thumbnailUrl: string;
-  costPerRecord: number;
-}
 
 export interface IDatasetState {
   all: IDataset[] | null;

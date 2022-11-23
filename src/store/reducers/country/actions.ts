@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import { ICountry } from '.';
 import { get } from '../../../services/api/restHelopers';
+import { ICountry } from '../../../types/Country';
 
 export const getAllCountries = createAsyncThunk('country/all', async () => {
   try {

@@ -4,11 +4,7 @@ import Alert from 'react-bootstrap/Alert';
 import { useSelector } from 'react-redux';
 
 import BuyOrderForm from '../../../components/BuyOrder/BuyOrderForm/BuyOrderForm';
-import {
-  buyOrderSelector,
-  IBuyOrder,
-  IBuyOrderPartial,
-} from '../../../store/reducers/buy-order';
+import { buyOrderSelector } from '../../../store/reducers/buy-order';
 import {
   getBuyOrderById,
   updateBuyOrderById,
@@ -17,11 +13,16 @@ import { thunkDispatch } from '../../../store/store';
 import { getAllDatasets } from '../../../store/reducers/dataset/actions';
 import Loader from '../../../components/Loader/Loader';
 import { countrySelector } from '../../../store/reducers/country';
+import { IBuyOrder, IBuyOrderPartial } from '../../../types/BuyOrder';
 
 const BuyOrderEdit = () => {
   const params = useParams();
   const navigate = useNavigate();
-  const { detail, detailStatus: detailAPIStatus, updateStatus } = useSelector(buyOrderSelector);
+  const {
+    detail,
+    detailStatus: detailAPIStatus,
+    updateStatus,
+  } = useSelector(buyOrderSelector);
   const { status: countryAPIStatus } = useSelector(countrySelector);
 
   // Redirect to the detail page after updating
@@ -57,7 +58,7 @@ const BuyOrderEdit = () => {
 
   if (!detail) {
     return (
-      <Alert variant='warning' className='m-2'>
+      <Alert variant="warning" className="m-2">
         No data
       </Alert>
     );
@@ -65,7 +66,8 @@ const BuyOrderEdit = () => {
 
   return (
     <>
-      <h1 className='text-center my-5'>Edit Buy Order</h1>
+      <h1 className="text-center my-5">Edit Buy Order</h1>
+
       <BuyOrderForm
         details={detail}
         isSubmiting={updateStatus === 'pending'}

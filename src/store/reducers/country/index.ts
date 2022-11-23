@@ -1,17 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import { TAPIStatus } from '../../../types/api';
+import { ICountry } from '../../../types/Country';
 import { RootState } from '../../store';
 import { getAllCountries } from './actions';
-
-export interface ICountry {
-  countryCode: string;
-  name: string;
-  storedData: {
-    datasetId: number;
-    recordCount: number;
-  }[];
-}
 
 export interface ICountryState {
   all: ICountry[] | null;

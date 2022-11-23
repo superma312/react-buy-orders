@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import { IBuyOrder, IBuyOrderPartial } from '.';
 import { del, get, post, put } from '../../../services/api/restHelopers';
+import { IBuyOrder, IBuyOrderPartial } from '../../../types/BuyOrder';
 
 export const getAllBuyOrders = createAsyncThunk('buyOrder/all', async () => {
   try {
