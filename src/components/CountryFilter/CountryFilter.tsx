@@ -41,18 +41,18 @@ const CountryFilter = () => {
   }
 
   return (
-    <div className="country-filter-container">
-      <div className="border border-dark wrapper p-3 bg-gray-white">
-        <label className="text-secondary mb-2">
+    <div className='country-filter-container'>
+      <div className='border border-dark wrapper p-3 bg-gray-white'>
+        <label className='text-secondary mb-2'>
           <u>Included countries:</u>
         </label>
-        <div className="country-list">
+        <div className='country-list'>
           {countries &&
             countries.map((country) => (
               <Badge
                 pill
                 bg={filteredCountriesMap[country.countryCode] ? 'light' : ''}
-                className="m-1 text-dark border border-dark cursor-pointer"
+                className='m-1 text-dark border border-dark cursor-pointer'
                 key={`country_filter_${country.countryCode}`}
                 onClick={() => handleFilter(country.countryCode)}
               >
