@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
 import { countrySelector } from '../../store/reducers/country';
@@ -8,33 +8,26 @@ interface IListResultProps {
 }
 
 const ListResult: FC<IListResultProps> = ({ count }) => {
-  const [selectedCountries, setSelectedCountries] = useState('');
   const {
     all: countries,
     status: countriesAPIStatus,
     filteredCountriesMap,
   } = useSelector(countrySelector);
 
-  useEffect(() => {
-    const generateSelectedCountries = () => {
-      if (!countries || countries.length === 0) {
-        setSelectedCountries('');
-        return;
-      }
+  const selectedCountries = useMemo(() => {
+    if (!countries || countries.length === 0) {
+      return '';
+    }
 
-      const filteredCountries = countries.filter(
-        (c) => filteredCountriesMap[c.countryCode]
-      );
+    const filteredCountries = countries.filter(
+      (c) => filteredCountriesMap[c.countryCode]
+    );
 
-      if (filteredCountries.length === 0) {
-        setSelectedCountries('');
-        return;
-      }
+    if (filteredCountries.length === 0) {
+      return '';
+    }
 
-      setSelectedCountries(filteredCountries.map((c) => c.name).join(' & '));
-    };
-
-    generateSelectedCountries();
+    return filteredCountries.map((c) => c.name).join(' & ');
   }, [countries, filteredCountriesMap]);
 
   if (countriesAPIStatus !== 'success') {

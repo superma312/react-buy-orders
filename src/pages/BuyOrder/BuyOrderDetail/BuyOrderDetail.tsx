@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -27,7 +27,6 @@ import './BuyOrderDetail.scss';
 const BuyOrderDetail = () => {
   const params = useParams();
   const navigate = useNavigate();
-  const [datasetsMap, setDatasetsMap] = useState<Record<number, IDataset>>({});
   const [isShowConDelModal, setIsShowConDelModal] = useState(false);
   const { detail, detailStatus, deleteStatus } = useSelector(buyOrderSelector);
   const { status: countryStatus, countriesMap } = useSelector(countrySelector);
@@ -45,7 +44,14 @@ const BuyOrderDetail = () => {
     fetchData();
   }, [params.id]);
 
+  // Redirect to buy orders list page after deleting
   useEffect(() => {
+    if (deleteStatus === 'success') {
+      navigate('/buy-orders');
+    }
+  }, [deleteStatus, navigate]);
+
+  const datasetsMap: Record<number, IDataset> = useMemo(() => {
     let datsetsObj = {};
 
     if (
@@ -65,15 +71,8 @@ const BuyOrderDetail = () => {
       }, {} as Record<number, IDataset>);
     }
 
-    setDatasetsMap(datsetsObj);
+    return datsetsObj;
   }, [allDatasets, datasetStatus, detail, detailStatus]);
-
-  // Redirect to buy orders list page after deleting
-  useEffect(() => {
-    if (deleteStatus === 'success') {
-      navigate('/buy-orders');
-    }
-  }, [deleteStatus, navigate]);
 
   const handleDeleteOrder = () => {
     thunkDispatch(deleteBuyOrderById(params.id as string));
