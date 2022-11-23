@@ -5,14 +5,14 @@ import { Link } from 'react-router-dom';
 
 import Layout from '../../../components/Layout/Layout';
 import CountryFilter from '../../../components/CountryFilter/CountryFilter';
-import BuyOrderItem from '../../../components/BuyOrder/BuyOrderItem/BuyOrderList';
+import BuyOrderItem from '../../../components/BuyOrder/BuyOrderItem/BuyOrderItem';
 import { buyOrderSelector } from '../../../store/reducers/buy-order';
 import { getAllBuyOrders } from '../../../store/reducers/buy-order/actions';
 import Loader from '../../../components/Loader/Loader';
-import CountryListLabel from '../../../components/CountryListLabel/CountryListLabel';
 import { checkCountryAvailability } from '../../../utils/common';
 import { countrySelector } from '../../../store/reducers/country';
 import { thunkDispatch } from '../../../store/store';
+import ListResult from '../../../components/ListResult/ListResult';
 
 import './BuyOrderList.scss';
 
@@ -55,9 +55,7 @@ const BuyOrderList = () => {
 
   return (
     <Layout title='Your Buy Orders'>
-      <p>
-        Showing {filteredBuyOrders.length} results <CountryListLabel />
-      </p>
+      <ListResult count={filteredBuyOrders.length} />
       {filteredBuyOrders.map((buyOrder, index) => (
         <div className='mb-3' key={`buy-order-${index}`}>
           <Link to={`/buy-orders/${buyOrder.id}`} className='buy-order-item'>

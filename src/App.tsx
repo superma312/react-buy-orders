@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
-import Navigation from './components/Navigation/Navigation';
-import Datasets from './pages/Datasets/Datasets';
+import Header from './components/Header/Header';
+import Datasets from './pages/DatasetList/DatasetList';
 import BuyOrderList from './pages/BuyOrder/BuyOrderList/BuyOrderList';
 import BuyOrderDetail from './pages/BuyOrder/BuyOrderDetail/BuyOrderDetail';
 import { getAllCountries } from './store/reducers/country/actions';
@@ -25,7 +25,7 @@ function App() {
   return (
     <div className='App'>
       <BrowserRouter>
-        <Navigation />
+        <Header />
         <Routes>
           <Route path='/' element={<Navigate to='/datasets' />} />
           <Route path='/datasets' element={<Datasets />} />

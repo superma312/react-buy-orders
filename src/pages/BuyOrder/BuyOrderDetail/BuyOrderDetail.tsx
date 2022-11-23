@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import Alert from 'react-bootstrap/Alert';
 import dayjs from 'dayjs';
 import Badge from 'react-bootstrap/Badge';
-import Button from 'react-bootstrap/Button';
+import BootstrapButton from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
 import Layout from '../../../components/Layout/Layout';
@@ -20,7 +20,7 @@ import Loader from '../../../components/Loader/Loader';
 import { countrySelector } from '../../../store/reducers/country';
 import { getAllDatasets } from '../../../store/reducers/dataset/actions';
 import { datasetSelector, IDataset } from '../../../store/reducers/dataset';
-import ButtonWithLoading from '../../../components/Buttons/ButtonWithLoading/ButtonWithLoading';
+import Button from '../../../components/Button/Button';
 
 import './BuyOrderDetail.scss';
 
@@ -167,14 +167,14 @@ const BuyOrderDetail = () => {
         </Row>
         <Row>
           <Col xs={12} md={{ span: 6, offset: 6 }} className='mt-4'>
-            <Button
+            <BootstrapButton
               className='me-2'
               variant='secondary'
               href={`/buy-orders/${params.id}/edit`}
             >
               Edit Order
-            </Button>
-            <ButtonWithLoading
+            </BootstrapButton>
+            <Button
               label='Delete Order'
               isSubmiting={deleteStatus === 'pending'}
               onClick={() => setIsShowConDelModal(true)}
@@ -193,15 +193,15 @@ const BuyOrderDetail = () => {
           </Modal.Header>
           <Modal.Body>Are you sure to delete this order?</Modal.Body>
           <Modal.Footer>
-            <Button
+            <BootstrapButton
               variant='secondary'
               onClick={() => setIsShowConDelModal(false)}
             >
               Close
-            </Button>
-            <Button variant='primary' onClick={handleDeleteOrder}>
+            </BootstrapButton>
+            <BootstrapButton variant='primary' onClick={handleDeleteOrder}>
               Yes
-            </Button>
+            </BootstrapButton>
           </Modal.Footer>
         </Modal>
       </div>

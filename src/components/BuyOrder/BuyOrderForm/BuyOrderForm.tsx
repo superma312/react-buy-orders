@@ -11,7 +11,7 @@ import { IBuyOrderPartial } from '../../../store/reducers/buy-order';
 import { countrySelector } from '../../../store/reducers/country';
 import { datasetSelector } from '../../../store/reducers/dataset';
 import { validateBuyOrderForm } from '../../../utils/common';
-import ButtonWithLoading from '../../Buttons/ButtonWithLoading/ButtonWithLoading';
+import Button from '../../Button/Button';
 
 import './BuyOrderForm.scss';
 
@@ -98,9 +98,9 @@ const BuyOrderForm: FC<IBuyOrderFormProps> = ({
     if (validateBuyOrderForm(formData)) {
       setIsRequiredFields(false);
       onSubmit(formData);
+    } else {
+      setIsRequiredFields(true);
     }
-
-    setIsRequiredFields(true);
   };
 
   const isEdit = !!details.id;
@@ -215,7 +215,7 @@ const BuyOrderForm: FC<IBuyOrderFormProps> = ({
             </Alert>
           )}
           <div className='d-flex justify-content-center'>
-            <ButtonWithLoading
+            <Button
               label={actionBtnLabel}
               isSubmiting={isSubmiting}
               onClick={handleSubmit}

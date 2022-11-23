@@ -43,5 +43,5 @@ export const generateCountryListString = (
     return '';
   }
 
-  return filteredCountries.map((c) => c.name).join(', ');
+  return filteredCountries.map((c) => c.name).join(' & ');
 };

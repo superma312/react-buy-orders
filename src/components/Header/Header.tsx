@@ -4,7 +4,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { useLocation } from 'react-router-dom';
 
-const Navigation = () => {
+const Header = () => {
   let location = useLocation();
 
   return (
@@ -19,4 +19,4 @@ const Navigation = () => {
   );
 };
 
-export default Navigation;
+export default Header;

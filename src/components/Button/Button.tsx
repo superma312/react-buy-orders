@@ -1,20 +1,20 @@
 import React, { FC } from 'react';
-import Button from 'react-bootstrap/Button';
+import BootstrapButton from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
 
-interface IButtonWithLoadingProps {
+interface IButtonProps {
   label: string;
   isSubmiting: boolean;
   onClick: () => void;
 }
 
-const ButtonWithLoading: FC<IButtonWithLoadingProps> = ({
+const Button: FC<IButtonProps> = ({
   label,
   isSubmiting,
   onClick,
 }) => {
   return (
-    <Button variant='secondary' onClick={onClick} disabled={isSubmiting}>
+    <BootstrapButton variant='secondary' onClick={onClick} disabled={isSubmiting}>
       {isSubmiting ? (
         <>
           <Spinner
@@ -29,8 +29,8 @@ const ButtonWithLoading: FC<IButtonWithLoadingProps> = ({
       ) : (
         label
       )}
-    </Button>
+    </BootstrapButton>
   );
 };
 
-export default ButtonWithLoading;
+export default Button;

@@ -12,10 +12,10 @@ import Loader from '../../components/Loader/Loader';
 import CountryFilter from '../../components/CountryFilter/CountryFilter';
 import { countrySelector } from '../../store/reducers/country';
 import { checkCountryAvailability } from '../../utils/common';
-import CountryListLabel from '../../components/CountryListLabel/CountryListLabel';
 import { thunkDispatch } from '../../store/store';
+import ListResult from '../../components/ListResult/ListResult';
 
-const Datasets = () => {
+const DatasetList = () => {
   const [datasetsMap, setDatasetsMap] = useState<
     Record<number, { countryCodes: string[]; recordCount: number }>
   >({});
@@ -98,9 +98,7 @@ const Datasets = () => {
 
   return (
     <Layout title='Datasets'>
-      <p>
-        Showing {filteredDataSets.length} results <CountryListLabel />
-      </p>
+      <ListResult count={filteredDataSets.length} />
       <Row>
         {filteredDataSets.map((dataset, index) => (
           <Col xs={12} md={6} className='mb-3' key={`dataset_${index}`}>
@@ -119,4 +117,4 @@ const Datasets = () => {
   );
 };
 
-export default Datasets;
+export default DatasetList;
