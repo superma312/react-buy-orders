@@ -1,18 +1,4 @@
-import { IBuyOrderPartial } from '../store/reducers/buy-order';
 import { ICountry } from '../store/reducers/country';
-
-export const validateBuyOrderForm = (data: IBuyOrderPartial) => {
-  if (
-    !data.name ||
-    !data.budget ||
-    data.countries?.length === 0 ||
-    data.datasetIds?.length === 0
-  ) {
-    return false;
-  }
-
-  return true;
-};
 
 export const checkCountryAvailability = (
   countryCodes: string[],

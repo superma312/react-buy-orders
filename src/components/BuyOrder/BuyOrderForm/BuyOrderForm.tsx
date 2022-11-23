@@ -5,12 +5,11 @@ import Badge from 'react-bootstrap/Badge';
 import { useSelector } from 'react-redux';
 import dayjs from 'dayjs';
 import Form from 'react-bootstrap/Form';
-import Alert from 'react-bootstrap/Alert';
+import InputGroup from 'react-bootstrap/InputGroup';
 
 import { IBuyOrderPartial } from '../../../store/reducers/buy-order';
 import { countrySelector } from '../../../store/reducers/country';
 import { datasetSelector } from '../../../store/reducers/dataset';
-import { validateBuyOrderForm } from '../../../utils/common';
 import Button from '../../Button/Button';
 
 import './BuyOrderForm.scss';
@@ -37,7 +36,7 @@ const BuyOrderForm: FC<IBuyOrderFormProps> = ({
 }) => {
   const [formData, setFormData] =
     useState<IBuyOrderPartial>(initialBuyOrderData);
-  const [isRequiredFields, setIsRequiredFields] = useState(false);
+  const [validated, setValidated] = useState(false);
   const { all: allCountries } = useSelector(countrySelector);
   const { all: allDatasets } = useSelector(datasetSelector);
 
@@ -94,62 +93,73 @@ const BuyOrderForm: FC<IBuyOrderFormProps> = ({
     });
   };
 
-  const handleSubmit = () => {
-    if (validateBuyOrderForm(formData)) {
-      setIsRequiredFields(false);
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    event.stopPropagation();
+    const form = event.currentTarget;
+
+    if (form.checkValidity()) {
       onSubmit(formData);
-    } else {
-      setIsRequiredFields(true);
     }
+
+    setValidated(true);
   };
 
   const isEdit = !!details.id;
   const actionBtnLabel = isEdit ? 'Save' : 'Create Order';
 
   return (
-    <div className='bg-gray-black p-4'>
+    <Form noValidate validated={validated} onSubmit={handleSubmit} className='bg-gray-black p-4'>
       <Row>
-        <Col xs={12} md={6} className='mb-3'>
-          <u className='text-secondary mb-2'>Order name</u>
-          <div>
+        <Form.Group as={Col} xs={12} md={6} className='mb-3'>
+          <Form.Label><u className='text-secondary'>Order name</u></Form.Label>
+          <Form.Control
+            type='text'
+            required
+            value={formData.name ? formData.name : ''}
+            placeholder='Order name'
+            onChange={(event) => handleChangeValue('name', event)}
+          />
+          <Form.Control.Feedback type="invalid">
+            Please input a order name.
+          </Form.Control.Feedback>
+        </Form.Group>
+        {isEdit && (
+          <Form.Group as={Col} xs={12} md={6} className='mb-3'>
+            <Form.Label><u className='text-secondary mb-2'>Date Created</u></Form.Label>
             <Form.Control
               type='text'
-              value={formData.name ? formData.name : ''}
-              placeholder='Order name'
-              onChange={(event) => handleChangeValue('name', event)}
+              readOnly
+              disabled
+              value={formData.createdAt
+                ? dayjs(formData?.createdAt).format('MM/DD/YYYY')
+                : ''}
             />
-          </div>
-        </Col>
-        <Col xs={12} md={6} className='mb-3'>
-          {isEdit && (
-            <>
-              <u className='text-secondary mb-2'>Date Created</u>
-              <div>
-                {formData.createdAt
-                  ? dayjs(formData?.createdAt).format('MM/DD/YYYY')
-                  : ''}
-              </div>
-            </>
-          )}
-        </Col>
+          </Form.Group>
+        )}
       </Row>
       <Row>
-        <Col xs={12} md={6} className='mb-3'>
-          <u className='text-secondary mb-2'>Order Budget</u>
-          <div className='d-flex align-items-center'>
-            <span className='me-2'>$</span>
+        <Form.Group as={Col} xs={12} md={6} className='mb-3'>
+          <Form.Label><u className='text-secondary mb-2'>Order Budget</u></Form.Label>
+          <InputGroup hasValidation>
+            <InputGroup.Text>$</InputGroup.Text>
             <Form.Control
               type='number'
+              required
               value={formData.budget ? formData.budget : 0}
+              isInvalid={validated && (!formData.budget || formData.budget <= 0)}
               placeholder='Order Budget'
               onChange={(event) => handleChangeValue('budget', event, 'number')}
             />
-          </div>
-        </Col>
+            <Form.Control.Feedback type="invalid">
+              Please input a order budget.
+            </Form.Control.Feedback>
+          </InputGroup>
+        </Form.Group>
       </Row>
       <Row>
-        <Col xs={12} className='mb-3'>
-          <u className='text-secondary mb-2'>Included datasets</u>
+        <Form.Group as={Col} xs={12} className='mb-3'>
+          <Form.Label><u className='text-secondary mb-2'>Included datasets</u></Form.Label>
           <Row>
             {allDatasets &&
               allDatasets.map((dataset) => (
@@ -182,11 +192,15 @@ const BuyOrderForm: FC<IBuyOrderFormProps> = ({
                 </Col>
               ))}
           </Row>
-        </Col>
+          <Form.Control type='text' value={formData.datasetIds && formData.datasetIds.length > 0 ? 'valid' : ''} required hidden isInvalid={validated && (!formData.datasetIds || formData.datasetIds.length === 0)} />
+          <Form.Control.Feedback type="invalid">
+            Please choose one dataset at least.
+          </Form.Control.Feedback>
+        </Form.Group>
       </Row>
       <Row>
-        <Col xs={12} md={6} className='mb-3'>
-          <u className='text-secondary'>Included countries</u>
+        <Form.Group as={Col} xs={12} className='mb-3'>
+          <Form.Label><u className='text-secondary'>Included countries</u></Form.Label>
           <div>
             {allCountries &&
               allCountries.map((country) => (
@@ -205,25 +219,24 @@ const BuyOrderForm: FC<IBuyOrderFormProps> = ({
                 </Badge>
               ))}
           </div>
-        </Col>
+          <Form.Control type='text' hidden value={formData.countries && formData.countries.length > 0 ? 'valid' : ''} isInvalid={validated && (!formData.countries || formData.countries.length === 0)} />
+          <Form.Control.Feedback type="invalid">
+            Please choose one country at least.
+          </Form.Control.Feedback>
+        </Form.Group>
       </Row>
       <Row>
         <Col xs={12}>
-          {isRequiredFields && (
-            <Alert variant='warning' className='mb-2 text-center'>
-              Please input all fields!
-            </Alert>
-          )}
           <div className='d-flex justify-content-center'>
             <Button
+              type='submit'
               label={actionBtnLabel}
               isSubmiting={isSubmiting}
-              onClick={handleSubmit}
             />
           </div>
         </Col>
       </Row>
-    </div>
+    </Form>
   );
 };
 
