@@ -28,7 +28,7 @@ const ListResult: FC<IListResultProps> = ({ count }) => {
 
       if (filteredCountries.length === 0) {
         setCountryListString('');
-        return '';
+        return;
       }
 
       setCountryListString(filteredCountries.map((c) => c.name).join(' & '));
