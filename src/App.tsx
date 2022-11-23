@@ -4,12 +4,12 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-import Header from './components/Header/Header';
 import { getAllCountries } from './store/reducers/country/actions';
 import { thunkDispatch } from './store/store';
+import Header from './components/Header/Header';
+import Loader from './components/Loader/Loader';
 
 import './App.scss';
-import Loader from './components/Loader/Loader';
 
 const Datasets = React.lazy(() => import('./pages/DatasetList/DatasetList'));
 const BuyOrderList = React.lazy(
