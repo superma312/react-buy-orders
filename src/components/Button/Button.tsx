@@ -13,18 +13,18 @@ const Button: FC<IButtonProps> = ({ type, label, isSubmiting, onClick }) => {
   return (
     <BootstrapButton
       type={type ?? 'button'}
-      variant='secondary'
+      variant="secondary"
       onClick={onClick ? onClick : () => {}}
       disabled={isSubmiting}
     >
       {isSubmiting ? (
         <>
           <Spinner
-            as='span'
-            animation='grow'
-            size='sm'
-            role='status'
-            aria-hidden='true'
+            as="span"
+            animation="grow"
+            size="sm"
+            role="status"
+            aria-hidden="true"
           />
           Loading...
         </>

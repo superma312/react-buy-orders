@@ -12,22 +12,22 @@ interface IBuyOrderItemProps {
 
 const BuyOrderItem = ({ data }: IBuyOrderItemProps) => {
   return (
-    <Container className='bg-gray-black p-3' fluid>
+    <Container className="bg-gray-black p-3" fluid>
       <Row>
         <Col sm>
-          <label className='text-secondary mb-2'>
+          <label className="text-secondary mb-2">
             <u>Order name</u>
           </label>
           <div>{data.name}</div>
         </Col>
         <Col sm>
-          <label className='text-secondary mb-2'>
+          <label className="text-secondary mb-2">
             <u>Date Created</u>
           </label>
           <div>{dayjs(data.createdAt).format('MM/DD/YYYY')}</div>
         </Col>
         <Col sm>
-          <label className='text-secondary mb-2'>
+          <label className="text-secondary mb-2">
             <u>Budget</u>
           </label>
           <div>${data.budget.toFixed(2)}</div>

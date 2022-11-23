@@ -84,7 +84,7 @@ const DatasetList = () => {
 
   if (!datasets || datasets.length === 0) {
     return (
-      <Alert variant='warning' className='m-2'>
+      <Alert variant="warning" className="m-2">
         No data
       </Alert>
     );
@@ -92,13 +92,13 @@ const DatasetList = () => {
 
   return (
     <>
-      <h1 className='text-center my-5'>Datasets</h1>
+      <h1 className="text-center my-5">Datasets</h1>
 
       <ListResult count={filteredDataSets.length} />
 
       <Row>
         {filteredDataSets.map((dataset, index) => (
-          <Col xs={12} md={6} className='mb-3' key={`dataset_${index}`}>
+          <Col xs={12} md={6} className="mb-3" key={`dataset_${index}`}>
             <DatasetCard
               data={{
                 ...dataset,

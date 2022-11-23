@@ -58,7 +58,7 @@ const BuyOrderEdit = () => {
 
   if (!detail) {
     return (
-      <Alert variant='warning' className='m-2'>
+      <Alert variant="warning" className="m-2">
         No data
       </Alert>
     );
@@ -66,7 +66,7 @@ const BuyOrderEdit = () => {
 
   return (
     <>
-      <h1 className='text-center my-5'>Edit Buy Order</h1>
+      <h1 className="text-center my-5">Edit Buy Order</h1>
 
       <BuyOrderForm
         details={detail}

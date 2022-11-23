@@ -46,7 +46,7 @@ const BuyOrderList = () => {
 
   if (!buyOrders || buyOrders.length === 0) {
     return (
-      <Alert variant='warning' className='m-2'>
+      <Alert variant="warning" className="m-2">
         No data
       </Alert>
     );
@@ -54,13 +54,13 @@ const BuyOrderList = () => {
 
   return (
     <>
-      <h1 className='text-center my-5'>Your Buy Orders</h1>
+      <h1 className="text-center my-5">Your Buy Orders</h1>
 
       <ListResult count={filteredBuyOrders.length} />
 
       {filteredBuyOrders.map((buyOrder, index) => (
-        <div className='mb-3' key={`buy-order-${index}`}>
-          <Link to={`/buy-orders/${buyOrder.id}`} className='buy-order-item'>
+        <div className="mb-3" key={`buy-order-${index}`}>
+          <Link to={`/buy-orders/${buyOrder.id}`} className="buy-order-item">
             <BuyOrderItem data={buyOrder} />
           </Link>
         </div>
