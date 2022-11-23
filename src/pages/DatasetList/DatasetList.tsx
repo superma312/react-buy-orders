@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux';
 import Alert from 'react-bootstrap/Alert';
 
 import DatasetCard from '../../components/Dataset/DatasetCard/DatasetCard';
-import Layout from '../../components/Layout/Layout';
 import { getAllDatasets } from '../../store/reducers/dataset/actions';
 import { datasetSelector } from '../../store/reducers/dataset';
 import Loader from '../../components/Loader/Loader';
@@ -97,7 +96,8 @@ const DatasetList = () => {
   }
 
   return (
-    <Layout title='Datasets'>
+    <>
+      <h1 className='text-center my-5'>Datasets</h1>
       <ListResult count={filteredDataSets.length} />
       <Row>
         {filteredDataSets.map((dataset, index) => (
@@ -113,7 +113,7 @@ const DatasetList = () => {
         ))}
       </Row>
       <CountryFilter />
-    </Layout>
+    </>
   );
 };
 

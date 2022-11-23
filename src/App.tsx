@@ -1,5 +1,8 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 import Header from './components/Header/Header';
 import Datasets from './pages/DatasetList/DatasetList';
@@ -26,14 +29,20 @@ function App() {
     <div className='App'>
       <BrowserRouter>
         <Header />
-        <Routes>
-          <Route path='/' element={<Navigate to='/datasets' />} />
-          <Route path='/datasets' element={<Datasets />} />
-          <Route path='/buy-orders' element={<BuyOrderList />} />
-          <Route path='/buy-orders/new' element={<BuyOrderCreate />} />
-          <Route path='/buy-orders/:id' element={<BuyOrderDetail />} />
-          <Route path='/buy-orders/:id/edit' element={<BuyOrderEdit />} />
-        </Routes>
+        <Container>
+          <Row className='justify-content-center'>
+            <Col md={10}>
+              <Routes>
+                <Route path='/' element={<Navigate to='/datasets' />} />
+                <Route path='/datasets' element={<Datasets />} />
+                <Route path='/buy-orders' element={<BuyOrderList />} />
+                <Route path='/buy-orders/new' element={<BuyOrderCreate />} />
+                <Route path='/buy-orders/:id' element={<BuyOrderDetail />} />
+                <Route path='/buy-orders/:id/edit' element={<BuyOrderEdit />} />
+              </Routes>
+            </Col>
+          </Row>
+        </Container>
       </BrowserRouter>
     </div>
   );

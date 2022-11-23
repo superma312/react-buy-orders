@@ -9,7 +9,6 @@ import Badge from 'react-bootstrap/Badge';
 import BootstrapButton from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
-import Layout from '../../../components/Layout/Layout';
 import {
   deleteBuyOrderById,
   getBuyOrderById,
@@ -97,7 +96,8 @@ const BuyOrderDetail = () => {
   }
 
   return (
-    <Layout title='Buy Order Details'>
+    <>
+      <h1 className='text-center my-5'>Buy Order Details</h1>
       <div className='bg-gray-black p-4'>
         <Row>
           <Col xs={12} md={6} className='mb-3'>
@@ -205,7 +205,7 @@ const BuyOrderDetail = () => {
           </Modal.Footer>
         </Modal>
       </div>
-    </Layout>
+    </>
   );
 };
 

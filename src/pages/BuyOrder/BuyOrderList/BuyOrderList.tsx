@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 import Alert from 'react-bootstrap/Alert';
 import { Link } from 'react-router-dom';
 
-import Layout from '../../../components/Layout/Layout';
 import CountryFilter from '../../../components/CountryFilter/CountryFilter';
 import BuyOrderItem from '../../../components/BuyOrder/BuyOrderItem/BuyOrderItem';
 import { buyOrderSelector } from '../../../store/reducers/buy-order';
@@ -54,7 +53,8 @@ const BuyOrderList = () => {
   }
 
   return (
-    <Layout title='Your Buy Orders'>
+    <>
+      <h1 className='text-center my-5'>Your Buy Orders</h1>
       <ListResult count={filteredBuyOrders.length} />
       {filteredBuyOrders.map((buyOrder, index) => (
         <div className='mb-3' key={`buy-order-${index}`}>
@@ -64,7 +64,7 @@ const BuyOrderList = () => {
         </div>
       ))}
       <CountryFilter />
-    </Layout>
+    </>
   );
 };
 

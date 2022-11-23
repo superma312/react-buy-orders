@@ -3,7 +3,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Alert from 'react-bootstrap/Alert';
 import { useSelector } from 'react-redux';
 
-import Layout from '../../../components/Layout/Layout';
 import BuyOrderForm from '../../../components/BuyOrder/BuyOrderForm/BuyOrderForm';
 import {
   buyOrderSelector,
@@ -65,13 +64,14 @@ const BuyOrderEdit = () => {
   }
 
   return (
-    <Layout title='Edit Buy Order'>
+    <>
+      <h1 className='text-center my-5'>Edit Buy Order</h1>
       <BuyOrderForm
         details={detail}
         isSubmiting={updateStatus === 'pending'}
         onSubmit={handleSubmit}
       />
-    </Layout>
+    </>
   );
 };
 

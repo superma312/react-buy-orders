@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-import Layout from '../../../components/Layout/Layout';
 import BuyOrderForm, {
   initialBuyOrderData,
 } from '../../../components/BuyOrder/BuyOrderForm/BuyOrderForm';
@@ -52,13 +51,14 @@ const BuyOrderCreate = () => {
   }
 
   return (
-    <Layout title='New Buy Order'>
+    <>
+      <h1 className='text-center my-5'>New Buy Order</h1>
       <BuyOrderForm
         details={initialBuyOrderData}
         isSubmiting={createStatus === 'pending'}
         onSubmit={handleSubmit}
       />
-    </Layout>
+    </>
   );
 };
 
