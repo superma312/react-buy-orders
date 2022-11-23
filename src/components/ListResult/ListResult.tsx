@@ -8,7 +8,7 @@ interface IListResultProps {
 }
 
 const ListResult: FC<IListResultProps> = ({ count }) => {
-  const [countryListString, setCountryListString] = useState('');
+  const [selectedCountries, setSelectedCountries] = useState('');
   const {
     all: countries,
     status: countriesAPIStatus,
@@ -18,7 +18,7 @@ const ListResult: FC<IListResultProps> = ({ count }) => {
   useEffect(() => {
     const generateSelectedCountries = () => {
       if (!countries || countries.length === 0) {
-        setCountryListString('');
+        setSelectedCountries('');
         return;
       }
 
@@ -27,11 +27,11 @@ const ListResult: FC<IListResultProps> = ({ count }) => {
       );
 
       if (filteredCountries.length === 0) {
-        setCountryListString('');
+        setSelectedCountries('');
         return;
       }
 
-      setCountryListString(filteredCountries.map((c) => c.name).join(' & '));
+      setSelectedCountries(filteredCountries.map((c) => c.name).join(' & '));
     };
 
     generateSelectedCountries();
@@ -46,7 +46,7 @@ const ListResult: FC<IListResultProps> = ({ count }) => {
       Showing {count} results{' '}
       {count > 0 && (
         <span>
-          from <strong>{countryListString}</strong>
+          from <strong>{selectedCountries}</strong>
         </span>
       )}
     </p>
