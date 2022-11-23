@@ -15,16 +15,16 @@ export interface ICountry {
 
 export interface ICountryState {
   all: ICountry[] | null;
-  countryMap: Record<string, string>;
-  countryFilters: Record<string, boolean>;
+  countriesMap: Record<string, string>;
+  filteredCountriesMap: Record<string, boolean>;
   status: TAPIStatus;
   error: string | null;
 }
 
 const initialState: ICountryState = {
   all: null,
-  countryMap: {},
-  countryFilters: {},
+  countriesMap: {},
+  filteredCountriesMap: {},
   status: null,
   error: null,
 };
@@ -37,9 +37,9 @@ const countrySlice = createSlice({
       const isInitialSet = action.payload.isInitialSet;
       for (let i = 0; i < action.payload.countryCodes.length; i++) {
         const countryCode = action.payload.countryCodes[i];
-        state.countryFilters[countryCode] = isInitialSet
+        state.filteredCountriesMap[countryCode] = isInitialSet
           ? true
-          : !state.countryFilters[countryCode];
+          : !state.filteredCountriesMap[countryCode];
       }
     },
   },
@@ -47,12 +47,12 @@ const countrySlice = createSlice({
     builder
       .addCase(getAllCountries.pending, (state) => {
         state.status = 'pending';
-        state.countryMap = {};
+        state.countriesMap = {};
       })
       .addCase(getAllCountries.fulfilled, (state, { payload }) => {
         state.status = 'success';
         state.all = payload;
-        state.countryMap = payload.reduce((acc, currentVal) => {
+        state.countriesMap = payload.reduce((acc, currentVal) => {
           acc[currentVal.countryCode] = currentVal.name;
           return acc;
         }, {} as Record<string, string>);
@@ -61,7 +61,7 @@ const countrySlice = createSlice({
       .addCase(getAllCountries.rejected, (state, { error }) => {
         state.status = 'failure';
         state.all = null;
-        state.countryMap = {};
+        state.countriesMap = {};
         state.error = error.message || 'Unknown Error';
         console.error('getAllCountries error: ', error);
       });

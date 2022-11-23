@@ -13,10 +13,10 @@ interface IDatasetCard extends IDataset {
 
 interface IDatasetCardProps {
   data: IDatasetCard;
-  countryMap: Record<string, string>;
+  countriesMap: Record<string, string>;
 }
 
-const DatasetCard = ({ data, countryMap }: IDatasetCardProps) => {
+const DatasetCard = ({ data, countriesMap }: IDatasetCardProps) => {
   return (
     <Card className='dataset-card-container bg-gray-black'>
       <Card.Body>
@@ -47,7 +47,7 @@ const DatasetCard = ({ data, countryMap }: IDatasetCardProps) => {
                   className='mx-1 text-dark bg-gray-white'
                   key={`country_${countryCode}`}
                 >
-                  {countryMap[countryCode]}
+                  {countriesMap[countryCode]}
                 </Badge>
               ))}
           </div>

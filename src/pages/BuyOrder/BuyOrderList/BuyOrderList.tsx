@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import Alert from 'react-bootstrap/Alert';
 import { Link } from 'react-router-dom';
@@ -17,11 +17,10 @@ import { thunkDispatch } from '../../../store/store';
 import './BuyOrderList.scss';
 
 const BuyOrderList = () => {
-  const { all: buyOrders, allStatus: buyOrdersStatus } =
+  const { all: buyOrders, allStatus: buyOrdersAPIStatus } =
     useSelector(buyOrderSelector);
-  const { status: countryStatus, countryFilters } =
+  const { status: countriesAPIStatus, filteredCountriesMap } =
     useSelector(countrySelector);
-  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     const fetchData = () => {
@@ -32,11 +31,17 @@ const BuyOrderList = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    setIsLoaded(buyOrdersStatus === 'success' && countryStatus === 'success');
-  }, [buyOrdersStatus, countryStatus]);
+  const filteredBuyOrders = useMemo(() => {
+    if (!buyOrders || buyOrders.length === 0) {
+      return [];
+    }
 
-  if (!isLoaded) {
+    return buyOrders.filter((buyOrder) =>
+      checkCountryAvailability(buyOrder.countries, filteredCountriesMap)
+    );
+  }, [buyOrders, filteredCountriesMap]);
+
+  if (buyOrdersAPIStatus === 'pending' || countriesAPIStatus === 'pending') {
     return <Loader />;
   }
 
@@ -48,18 +53,12 @@ const BuyOrderList = () => {
     );
   }
 
-  const filtered = buyOrders.filter((buyOrder) =>
-    checkCountryAvailability(buyOrder.countries, countryFilters)
-  );
-
-  const buyOrdersLen = filtered ? filtered.length : 0;
-
   return (
     <Layout title='Your Buy Orders'>
       <p>
-        Showing {buyOrdersLen} results <CountryListLabel />
+        Showing {filteredBuyOrders.length} results <CountryListLabel />
       </p>
-      {filtered.map((buyOrder, index) => (
+      {filteredBuyOrders.map((buyOrder, index) => (
         <div className='mb-3' key={`buy-order-${index}`}>
           <Link to={`/buy-orders/${buyOrder.id}`} className='buy-order-item'>
             <BuyOrderItem data={buyOrder} />

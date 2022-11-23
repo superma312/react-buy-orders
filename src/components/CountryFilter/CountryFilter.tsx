@@ -14,7 +14,7 @@ const CountryFilter = () => {
   const {
     all: countries,
     status,
-    countryFilters,
+    filteredCountriesMap,
   } = useSelector(countrySelector);
 
   useEffect(() => {
@@ -49,7 +49,7 @@ const CountryFilter = () => {
             countries.map((country) => (
               <Badge
                 pill
-                bg={countryFilters[country.countryCode] ? 'light' : ''}
+                bg={filteredCountriesMap[country.countryCode] ? 'light' : ''}
                 className='m-1 text-dark border border-dark cursor-pointer'
                 key={`country_filter_${country.countryCode}`}
                 onClick={() => handleFilter(country.countryCode)}

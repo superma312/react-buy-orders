@@ -9,12 +9,12 @@ const CountryListLabel = () => {
   const {
     all: countries,
     status,
-    countryFilters,
+    filteredCountriesMap,
   } = useSelector(countrySelector);
 
   useEffect(() => {
-    setLabel(generateCountryListString(countries || [], countryFilters));
-  }, [countries, countryFilters]);
+    setLabel(generateCountryListString(countries || [], filteredCountriesMap));
+  }, [countries, filteredCountriesMap]);
 
   if (!label || status !== 'success') {
     return null;

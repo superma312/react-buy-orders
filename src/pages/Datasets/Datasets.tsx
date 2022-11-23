@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { useSelector } from 'react-redux';
@@ -16,16 +16,15 @@ import CountryListLabel from '../../components/CountryListLabel/CountryListLabel
 import { thunkDispatch } from '../../store/store';
 
 const Datasets = () => {
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [dataMap, setDataMap] = useState<
+  const [datasetsMap, setDatasetsMap] = useState<
     Record<number, { countryCodes: string[]; recordCount: number }>
   >({});
-  const { all: datasets, status: datasetStatus } = useSelector(datasetSelector);
+  const { all: datasets, status: datasetsAPIStatus } = useSelector(datasetSelector);
   const {
     all: countries,
-    status: countryStatus,
-    countryMap,
-    countryFilters,
+    status: countriesAPIStatus,
+    countriesMap,
+    filteredCountriesMap,
   } = useSelector(countrySelector);
 
   useEffect(() => {
@@ -69,14 +68,23 @@ const Datasets = () => {
       }
     }
 
-    setDataMap(datasetCountryMap);
+    setDatasetsMap(datasetCountryMap);
   }, [datasets, countries]);
 
-  useEffect(() => {
-    setIsLoaded(datasetStatus === 'success' && countryStatus === 'success');
-  }, [datasetStatus, countryStatus]);
+  const filteredDataSets = useMemo(() => {
+    if (!datasets || datasets.length === 0) {
+      return [];
+    }
 
-  if (!isLoaded) {
+    return datasets.filter((dataset) =>
+      checkCountryAvailability(
+        datasetsMap[dataset.id] ? datasetsMap[dataset.id].countryCodes : [],
+        filteredCountriesMap
+      )
+    );
+  }, [datasets, datasetsMap, filteredCountriesMap]);
+
+  if (datasetsAPIStatus === 'pending' || countriesAPIStatus === 'pending') {
     return <Loader />;
   }
 
@@ -88,19 +96,10 @@ const Datasets = () => {
     );
   }
 
-  const filteredDataSets = datasets.filter((dataset) =>
-    checkCountryAvailability(
-      dataMap[dataset.id] ? dataMap[dataset.id].countryCodes : [],
-      countryFilters
-    )
-  );
-
-  const datasetsLen = filteredDataSets ? filteredDataSets.length : 0;
-
   return (
     <Layout title='Datasets'>
       <p>
-        Showing {datasetsLen} results <CountryListLabel />
+        Showing {filteredDataSets.length} results <CountryListLabel />
       </p>
       <Row>
         {filteredDataSets.map((dataset, index) => (
@@ -108,9 +107,9 @@ const Datasets = () => {
             <DatasetCard
               data={{
                 ...dataset,
-                ...dataMap[dataset.id],
+                ...datasetsMap[dataset.id],
               }}
-              countryMap={countryMap}
+              countriesMap={countriesMap}
             />
           </Col>
         ))}

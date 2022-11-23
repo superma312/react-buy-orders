@@ -30,7 +30,7 @@ const BuyOrderDetail = () => {
   const [datasetsMap, setDatasetsMap] = useState<Record<number, IDataset>>({});
   const [isShowConDelModal, setIsShowConDelModal] = useState(false);
   const { detail, detailStatus, deleteStatus } = useSelector(buyOrderSelector);
-  const { status: countryStatus, countryMap } = useSelector(countrySelector);
+  const { status: countryStatus, countriesMap } = useSelector(countrySelector);
   const { all: allDatasets, status: datasetStatus } =
     useSelector(datasetSelector);
 
@@ -159,7 +159,7 @@ const BuyOrderDetail = () => {
                     className='mx-1 text-dark bg-gray-white'
                     key={`country_${countryCode}`}
                   >
-                    {countryMap[countryCode]}
+                    {countriesMap[countryCode]}
                   </Badge>
                 ))}
             </div>
