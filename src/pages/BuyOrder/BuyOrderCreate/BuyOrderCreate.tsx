@@ -50,7 +50,7 @@ const BuyOrderCreate = () => {
 
   return (
     <>
-      <h1 className="text-center my-5">New Buy Order</h1>
+      <h1 className='text-center my-5'>New Buy Order</h1>
 
       <BuyOrderForm
         details={initialBuyOrderData}
