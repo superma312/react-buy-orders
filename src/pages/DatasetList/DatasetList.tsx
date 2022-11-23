@@ -34,7 +34,7 @@ const DatasetList = () => {
   }, []);
 
   const extraDatasetsMap = useMemo(() => {
-    // Generate the map to calculate available records and included countries
+    // Create the map to calculate available records and included countries efficiently
     let map: Record<number, { countryCodes: string[]; recordCount: number }> =
       {};
 

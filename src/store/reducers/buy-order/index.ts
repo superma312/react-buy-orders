@@ -62,7 +62,7 @@ const buyOrderSlice = createSlice({
         console.error('getAllBuyOrders error: ', error);
       })
 
-      // get by id
+      // Get by ID
       .addCase(getBuyOrderById.pending, (state) => {
         state.detailStatus = 'pending';
       })
@@ -78,7 +78,7 @@ const buyOrderSlice = createSlice({
         console.error('getBuyOrderById error: ', error);
       })
 
-      // update by id
+      // Update by ID
       .addCase(updateBuyOrderById.pending, (state) => {
         state.updateStatus = 'pending';
       })
@@ -92,7 +92,7 @@ const buyOrderSlice = createSlice({
         console.error('updateBuyOrderById error: ', error);
       })
 
-      // create
+      // Create
       .addCase(createBuyOrder.pending, (state) => {
         state.createStatus = 'pending';
       })
@@ -106,7 +106,7 @@ const buyOrderSlice = createSlice({
         console.error('createBuyOrder error: ', error);
       })
 
-      // delete by id
+      // Delete by ID
       .addCase(deleteBuyOrderById.pending, (state) => {
         state.deleteStatus = 'pending';
       })
