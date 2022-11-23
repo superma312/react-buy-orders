@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { useSelector } from 'react-redux';
@@ -15,9 +15,6 @@ import { thunkDispatch } from '../../store/store';
 import ListResult from '../../components/ListResult/ListResult';
 
 const DatasetList = () => {
-  const [datasetsMap, setDatasetsMap] = useState<
-    Record<number, { countryCodes: string[]; recordCount: number }>
-  >({});
   const { all: datasets, status: datasetsAPIStatus } =
     useSelector(datasetSelector);
   const {
@@ -36,12 +33,10 @@ const DatasetList = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
+  const extraDatasetsMap = useMemo(() => {
     // Generate the map to calculate available records and included countries
-    let datasetCountryMap: Record<
-      number,
-      { countryCodes: string[]; recordCount: number }
-    > = {};
+    let map: Record<number, { countryCodes: string[]; recordCount: number }> =
+      {};
 
     if (datasets && datasets.length > 0 && countries && countries.length > 0) {
       for (let c = 0; c < countries.length; c++) {
@@ -51,24 +46,21 @@ const DatasetList = () => {
           for (let d = 0; d < country.storedData.length; d++) {
             const dataset = country.storedData[d];
 
-            if (!datasetCountryMap[dataset.datasetId]) {
-              datasetCountryMap[dataset.datasetId] = {
+            if (!map[dataset.datasetId]) {
+              map[dataset.datasetId] = {
                 countryCodes: [],
                 recordCount: 0,
               };
             }
 
-            datasetCountryMap[dataset.datasetId].countryCodes.push(
-              country.countryCode
-            );
-            datasetCountryMap[dataset.datasetId].recordCount +=
-              dataset.recordCount;
+            map[dataset.datasetId].countryCodes.push(country.countryCode);
+            map[dataset.datasetId].recordCount += dataset.recordCount;
           }
         }
       }
     }
 
-    setDatasetsMap(datasetCountryMap);
+    return map;
   }, [datasets, countries]);
 
   const filteredDataSets = useMemo(() => {
@@ -78,11 +70,13 @@ const DatasetList = () => {
 
     return datasets.filter((dataset) =>
       checkCountryAvailability(
-        datasetsMap[dataset.id] ? datasetsMap[dataset.id].countryCodes : [],
+        extraDatasetsMap[dataset.id]
+          ? extraDatasetsMap[dataset.id].countryCodes
+          : [],
         filteredCountriesMap
       )
     );
-  }, [datasets, datasetsMap, filteredCountriesMap]);
+  }, [datasets, extraDatasetsMap, filteredCountriesMap]);
 
   if (datasetsAPIStatus === 'pending' || countriesAPIStatus === 'pending') {
     return <Loader />;
@@ -108,7 +102,7 @@ const DatasetList = () => {
             <DatasetCard
               data={{
                 ...dataset,
-                ...datasetsMap[dataset.id],
+                ...extraDatasetsMap[dataset.id],
               }}
               countriesMap={countriesMap}
             />
