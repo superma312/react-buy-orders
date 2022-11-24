@@ -10,7 +10,6 @@ import { datasetSelector } from '../../store/reducers/dataset';
 import Loader from '../../components/Loader/Loader';
 import CountryFilter from '../../components/CountryFilter/CountryFilter';
 import { countrySelector } from '../../store/reducers/country';
-import { checkCountryAvailability } from '../../utils/common';
 import { thunkDispatch } from '../../store/store';
 import ListResult from '../../components/ListResult/ListResult';
 
@@ -71,14 +70,15 @@ const DatasetList = () => {
       return [];
     }
 
-    return datasets.filter((dataset) =>
-      checkCountryAvailability(
-        extraDatasetsMap[dataset.id]
-          ? extraDatasetsMap[dataset.id].countryCodes
-          : [],
-        filteredCountriesMap
-      )
-    );
+    return datasets.filter((dataset) => {
+      const datasetCountryCodes = extraDatasetsMap[dataset.id]
+        ? extraDatasetsMap[dataset.id].countryCodes
+        : [];
+
+      return datasetCountryCodes.some(
+        (countryCode) => filteredCountriesMap[countryCode]
+      );
+    });
   }, [datasets, extraDatasetsMap, filteredCountriesMap]);
 
   if (datasetsAPIStatus === 'pending' || countriesAPIStatus === 'pending') {

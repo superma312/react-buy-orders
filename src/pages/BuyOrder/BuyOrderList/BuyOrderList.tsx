@@ -8,7 +8,6 @@ import BuyOrderItem from '../../../components/BuyOrder/BuyOrderItem/BuyOrderItem
 import { buyOrderSelector } from '../../../store/reducers/buy-order';
 import { getAllBuyOrders } from '../../../store/reducers/buy-order/actions';
 import Loader from '../../../components/Loader/Loader';
-import { checkCountryAvailability } from '../../../utils/common';
 import { countrySelector } from '../../../store/reducers/country';
 import { thunkDispatch } from '../../../store/store';
 import ListResult from '../../../components/ListResult/ListResult';
@@ -36,7 +35,9 @@ const BuyOrderList = () => {
     }
 
     return buyOrders.filter((buyOrder) =>
-      checkCountryAvailability(buyOrder.countries, filteredCountriesMap)
+      buyOrder.countries.some(
+        (countryCode) => filteredCountriesMap[countryCode]
+      )
     );
   }, [buyOrders, filteredCountriesMap]);
 
