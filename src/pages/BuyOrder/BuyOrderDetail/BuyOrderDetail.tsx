@@ -186,8 +186,8 @@ const BuyOrderDetail = () => {
               Edit Order
             </BootstrapButton>
             <Button
-              label="Delete Order"
-              isSubmiting={deleteStatus === 'pending'}
+              name="Delete Order"
+              loading={deleteStatus === 'pending'}
               onClick={() => setIsShowConDelModal(true)}
             />
           </Col>

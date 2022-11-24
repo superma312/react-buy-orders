@@ -272,8 +272,8 @@ const BuyOrderForm: FC<IBuyOrderFormProps> = ({
           <div className="d-flex justify-content-center">
             <Button
               type="submit"
-              label={actionBtnLabel}
-              isSubmiting={isSubmiting}
+              name={actionBtnLabel}
+              loading={isSubmiting}
             />
           </div>
         </Col>

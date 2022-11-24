@@ -4,20 +4,20 @@ import Spinner from 'react-bootstrap/Spinner';
 
 interface IButtonProps {
   type?: 'button' | 'submit';
-  label: string;
-  isSubmiting: boolean;
+  loading: boolean;
+  name: string;
   onClick?: () => void;
 }
 
-const Button: FC<IButtonProps> = ({ type, label, isSubmiting, onClick }) => {
+const Button: FC<IButtonProps> = ({ type, loading, name, onClick }) => {
   return (
     <BootstrapButton
       type={type ?? 'button'}
       variant="secondary"
       onClick={onClick ? onClick : () => {}}
-      disabled={isSubmiting}
+      disabled={loading}
     >
-      {isSubmiting ? (
+      {loading ? (
         <>
           <Spinner
             as="span"
@@ -29,7 +29,7 @@ const Button: FC<IButtonProps> = ({ type, label, isSubmiting, onClick }) => {
           Loading...
         </>
       ) : (
-        label
+        name
       )}
     </BootstrapButton>
   );
