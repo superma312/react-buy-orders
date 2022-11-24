@@ -51,15 +51,16 @@ const BuyOrderDetail = () => {
     }
   }, [deleteStatus, navigate]);
 
+  // Create a map to get the dataset data with dataset ID efficiently
   const datasetsMap: Record<number, IDataset> = useMemo(() => {
-    let datsetsObj = {};
+    let map = {};
 
     if (
       detailStatus === 'success' &&
       datasetStatus === 'success' &&
       detail?.datasetIds
     ) {
-      datsetsObj = detail.datasetIds.reduce((acc, currentVal) => {
+      map = detail.datasetIds.reduce((acc, currentVal) => {
         if (allDatasets) {
           const datasetIndex = allDatasets.map((d) => d.id).indexOf(currentVal);
           if (datasetIndex !== -1) {
@@ -71,7 +72,7 @@ const BuyOrderDetail = () => {
       }, {} as Record<number, IDataset>);
     }
 
-    return datsetsObj;
+    return map;
   }, [allDatasets, datasetStatus, detail, detailStatus]);
 
   const handleDeleteOrder = () => {

@@ -33,8 +33,11 @@ const DatasetList = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  /**
+   * Create a map to add extra available records and included countries efficiently
+   * into the datasets list
+   */
   const extraDatasetsMap = useMemo(() => {
-    // Create the map to calculate available records and included countries efficiently
     let map: Record<number, { countryCodes: string[]; recordCount: number }> =
       {};
 
