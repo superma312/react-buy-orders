@@ -28,7 +28,7 @@ const CountryFilter = () => {
     }
   }, [countries, status]);
 
-  const handleFilter = (countryCode: string) => {
+  const handleChangeCountries = (countryCode: string) => {
     thunkDispatch(
       updateCountryFilters({
         countryCodes: [countryCode],
@@ -54,7 +54,7 @@ const CountryFilter = () => {
                 bg={filteredCountriesMap[country.countryCode] ? 'light' : ''}
                 className="m-1 text-dark border border-dark cursor-pointer"
                 key={`country_filter_${country.countryCode}`}
-                onClick={() => handleFilter(country.countryCode)}
+                onClick={() => handleChangeCountries(country.countryCode)}
               >
                 {country.name}
               </Badge>

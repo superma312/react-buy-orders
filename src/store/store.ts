@@ -10,6 +10,10 @@ export const store = configureStore({
     buyOrder: buyOrderReducer,
     country: countryReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
 });
 
 export type RootState = ReturnType<typeof store.getState>;
