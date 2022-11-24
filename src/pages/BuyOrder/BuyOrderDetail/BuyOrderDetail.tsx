@@ -103,30 +103,30 @@ const BuyOrderDetail = () => {
       <div className="bg-gray-black p-4">
         <Row>
           <Col xs={12} md={6} className="mb-3">
-            <label className="text-secondary mb-2">
-              <u>Order name</u>
+            <label className="text-secondary text-decoration-underline mb-2">
+              Order name
             </label>
             <div>{detail.name}</div>
           </Col>
           <Col xs={12} md={6} className="mb-3">
-            <label className="text-secondary mb-2">
-              <u>Date Created</u>
+            <label className="text-secondary text-decoration-underline mb-2">
+              Date Created
             </label>
             <div>{dayjs(detail.createdAt).format('MM/DD/YYYY')}</div>
           </Col>
         </Row>
         <Row>
           <Col xs={12} md={6} className="mb-3">
-            <label className="text-secondary mb-2">
-              <u>Order Budget</u>
+            <label className="text-secondary text-decoration-underline mb-2">
+              Order Budget
             </label>
             <div>${detail.budget.toFixed(2)}</div>
           </Col>
         </Row>
         <Row>
           <Col xs={12} className="mb-3">
-            <label className="text-secondary mb-2">
-              <u>Included datasets</u>
+            <label className="text-secondary text-decoration-underline mb-2">
+              Included datasets
             </label>
             <Row>
               {detail.datasetIds.map((datasetId) => (
@@ -159,8 +159,8 @@ const BuyOrderDetail = () => {
         </Row>
         <Row>
           <Col xs={12} md={6} className="mb-3">
-            <label className="text-secondary mb-2">
-              <u>Date Created</u>
+            <label className="text-secondary text-decoration-underline mb-2">
+              Date Created
             </label>
             <div>
               {detail.countries &&

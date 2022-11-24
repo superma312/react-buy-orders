@@ -25,22 +25,22 @@ const DatasetCard = ({ data, countriesMap }: IDatasetCardProps) => {
           <Card.Title className="ms-3">{data.label}</Card.Title>
         </div>
         <div className="mb-2">
-          <label className="text-secondary mb-2">
-            <u>Dataset Description</u>
+          <label className="text-secondary text-decoration-underline mb-2">
+            Dataset Description
           </label>
           <div>{data.description}</div>
         </div>
         <div className="mb-2 d-flex justify-content-between">
-          <u className="text-secondary">Cost Per Record</u>
+          <label className="text-secondary text-decoration-underline">Cost Per Record</label>
           <div>${data.costPerRecord.toFixed(2)}</div>
         </div>
         <div className="mb-2 d-flex justify-content-between">
-          <u className="text-secondary">Available Records</u>
+          <label className="text-secondary text-decoration-underline">Available Records</label>
           <div>{data.recordCount} records</div>
         </div>
         <div>
-          <label className="text-secondary mb-2">
-            <u>Included countries</u>
+          <label className="text-secondary text-decoration-underline mb-2">
+            Included countries
           </label>
           <div>
             {data.countryCodes &&

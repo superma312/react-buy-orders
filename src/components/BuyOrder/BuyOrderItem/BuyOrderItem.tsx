@@ -15,20 +15,20 @@ const BuyOrderItem = ({ data }: IBuyOrderItemProps) => {
     <Container className="bg-gray-black p-3" fluid>
       <Row>
         <Col sm>
-          <label className="text-secondary mb-2">
-            <u>Order name</u>
+          <label className="text-secondary text-decoration-underline mb-2">
+            Order name
           </label>
           <div>{data.name}</div>
         </Col>
         <Col sm>
-          <label className="text-secondary mb-2">
-            <u>Date Created</u>
+          <label className="text-secondary text-decoration-underline mb-2">
+            Date Created
           </label>
           <div>{dayjs(data.createdAt).format('MM/DD/YYYY')}</div>
         </Col>
         <Col sm>
-          <label className="text-secondary mb-2">
-            <u>Budget</u>
+          <label className="text-secondary text-decoration-underline mb-2">
+            Budget
           </label>
           <div>${data.budget.toFixed(2)}</div>
         </Col>

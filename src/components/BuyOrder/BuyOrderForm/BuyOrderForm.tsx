@@ -111,8 +111,8 @@ const BuyOrderForm: FC<IBuyOrderFormProps> = ({
     >
       <Row>
         <Form.Group as={Col} xs={12} md={6} className="mb-3">
-          <Form.Label>
-            <u className="text-secondary">Order name</u>
+          <Form.Label className="text-secondary text-decoration-underline">
+            Order name
           </Form.Label>
           <Form.Control
             type="text"
@@ -127,8 +127,8 @@ const BuyOrderForm: FC<IBuyOrderFormProps> = ({
         </Form.Group>
         {isEdit && (
           <Form.Group as={Col} xs={12} md={6} className="mb-3">
-            <Form.Label>
-              <u className="text-secondary mb-2">Date Created</u>
+            <Form.Label className="text-secondary text-decoration-underline">
+              Date Created
             </Form.Label>
             <Form.Control
               type="text"
@@ -145,8 +145,8 @@ const BuyOrderForm: FC<IBuyOrderFormProps> = ({
       </Row>
       <Row>
         <Form.Group as={Col} xs={12} md={6} className="mb-3">
-          <Form.Label>
-            <u className="text-secondary mb-2">Order Budget</u>
+          <Form.Label className="text-secondary text-decoration-underline">
+            Order Budget
           </Form.Label>
           <InputGroup hasValidation>
             <InputGroup.Text>$</InputGroup.Text>
@@ -170,8 +170,8 @@ const BuyOrderForm: FC<IBuyOrderFormProps> = ({
       </Row>
       <Row>
         <Form.Group as={Col} xs={12} className="mb-3">
-          <Form.Label>
-            <u className="text-secondary mb-2">Included datasets</u>
+          <Form.Label className="text-secondary text-decoration-underline">
+            Included datasets
           </Form.Label>
           <Row>
             {allDatasets &&
@@ -227,8 +227,8 @@ const BuyOrderForm: FC<IBuyOrderFormProps> = ({
       </Row>
       <Row>
         <Form.Group as={Col} xs={12} className="mb-3">
-          <Form.Label>
-            <u className="text-secondary">Included countries</u>
+          <Form.Label className="text-secondary text-decoration-underline">
+            Included countries
           </Form.Label>
           <div>
             {allCountries &&
