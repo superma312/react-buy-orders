@@ -12,7 +12,7 @@ interface IButtonProps {
 const Button: FC<IButtonProps> = ({ type, loading, name, onClick }) => {
   return (
     <BootstrapButton
-      type={type ?? 'button'}
+      type={type}
       variant="secondary"
       onClick={onClick ? onClick : () => {}}
       disabled={loading}
@@ -25,6 +25,7 @@ const Button: FC<IButtonProps> = ({ type, loading, name, onClick }) => {
             size="sm"
             role="status"
             aria-hidden="true"
+            className="me-2"
           />
           Loading...
         </>

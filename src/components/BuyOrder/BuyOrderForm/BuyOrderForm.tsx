@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState, FC } from 'react';
+import React, { useEffect, useState, FC } from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Badge from 'react-bootstrap/Badge';
@@ -36,7 +36,7 @@ const BuyOrderForm: FC<IBuyOrderFormProps> = ({
 }) => {
   const [formData, setFormData] =
     useState<IBuyOrderPartial>(initialBuyOrderData);
-  const [validated, setValidated] = useState(false);
+  const [isValidated, setIsValidated] = useState(false);
   const { all: allCountries } = useSelector(countrySelector);
   const { all: allDatasets } = useSelector(datasetSelector);
 
@@ -46,14 +46,11 @@ const BuyOrderForm: FC<IBuyOrderFormProps> = ({
 
   const handleChangeValue = (
     propertyName: string,
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    type?: string
+    value: string | number
   ) => {
-    const updatedValue =
-      type === 'number' ? Number(event.target.value) : event.target.value;
     setFormData({
       ...formData,
-      [propertyName]: updatedValue,
+      [propertyName]: value,
     });
   };
 
@@ -102,7 +99,7 @@ const BuyOrderForm: FC<IBuyOrderFormProps> = ({
       onSubmit(formData);
     }
 
-    setValidated(true);
+    setIsValidated(true);
   };
 
   const isEdit = !!details.id;
@@ -111,7 +108,7 @@ const BuyOrderForm: FC<IBuyOrderFormProps> = ({
   return (
     <Form
       noValidate
-      validated={validated}
+      validated={isValidated}
       onSubmit={handleSubmit}
       className="bg-gray-black p-4"
     >
@@ -125,7 +122,7 @@ const BuyOrderForm: FC<IBuyOrderFormProps> = ({
             required
             value={formData.name ? formData.name : ''}
             placeholder="Order name"
-            onChange={(event) => handleChangeValue('name', event)}
+            onChange={(event) => handleChangeValue('name', event.target.value)}
           />
           <Form.Control.Feedback type="invalid">
             Please input a order name.
@@ -161,10 +158,10 @@ const BuyOrderForm: FC<IBuyOrderFormProps> = ({
               required
               value={formData.budget ? formData.budget : 0}
               isInvalid={
-                validated && (!formData.budget || formData.budget <= 0)
+                isValidated && (!formData.budget || formData.budget <= 0)
               }
               placeholder="Order Budget"
-              onChange={(event) => handleChangeValue('budget', event, 'number')}
+              onChange={(event) => handleChangeValue('budget', Number(event.target.value))}
             />
             <Form.Control.Feedback type="invalid">
               Please input a order budget.
@@ -219,7 +216,7 @@ const BuyOrderForm: FC<IBuyOrderFormProps> = ({
             required
             hidden
             isInvalid={
-              validated &&
+              isValidated &&
               (!formData.datasetIds || formData.datasetIds.length === 0)
             }
           />
@@ -258,7 +255,7 @@ const BuyOrderForm: FC<IBuyOrderFormProps> = ({
               formData.countries && formData.countries.length > 0 ? 'valid' : ''
             }
             isInvalid={
-              validated &&
+              isValidated &&
               (!formData.countries || formData.countries.length === 0)
             }
           />
