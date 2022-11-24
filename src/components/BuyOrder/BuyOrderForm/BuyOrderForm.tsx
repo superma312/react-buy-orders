@@ -44,10 +44,7 @@ const BuyOrderForm: FC<IBuyOrderFormProps> = ({
     setFormData({ ...details });
   }, [details]);
 
-  const handleChangeValue = (
-    propertyName: string,
-    value: string | number
-  ) => {
+  const handleChangeValue = (propertyName: string, value: string | number) => {
     setFormData({
       ...formData,
       [propertyName]: value,
@@ -161,7 +158,9 @@ const BuyOrderForm: FC<IBuyOrderFormProps> = ({
                 isValidated && (!formData.budget || formData.budget <= 0)
               }
               placeholder="Order Budget"
-              onChange={(event) => handleChangeValue('budget', Number(event.target.value))}
+              onChange={(event) =>
+                handleChangeValue('budget', Number(event.target.value))
+              }
             />
             <Form.Control.Feedback type="invalid">
               Please input a order budget.
