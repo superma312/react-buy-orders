@@ -103,7 +103,7 @@ const BuyOrderForm: FC<IBuyOrderFormProps> = ({
   };
 
   const isEdit = !!details.id;
-  const actionBtnLabel = isEdit ? 'Save' : 'Create Order';
+  const actionButtonName = isEdit ? 'Save' : 'Create Order';
 
   return (
     <Form
@@ -219,6 +219,7 @@ const BuyOrderForm: FC<IBuyOrderFormProps> = ({
               isValidated &&
               (!formData.datasetIds || formData.datasetIds.length === 0)
             }
+            onChange={() => {}}
           />
           <Form.Control.Feedback type="invalid">
             Please choose one dataset at least.
@@ -258,6 +259,7 @@ const BuyOrderForm: FC<IBuyOrderFormProps> = ({
               isValidated &&
               (!formData.countries || formData.countries.length === 0)
             }
+            onChange={() => {}}
           />
           <Form.Control.Feedback type="invalid">
             Please choose one country at least.
@@ -269,7 +271,7 @@ const BuyOrderForm: FC<IBuyOrderFormProps> = ({
           <div className="d-flex justify-content-center">
             <Button
               type="submit"
-              name={actionBtnLabel}
+              name={actionButtonName}
               loading={isSubmiting}
             />
           </div>
