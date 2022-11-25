@@ -1,10 +1,10 @@
 import { IBuyOrderPartial } from '../types/BuyOrder';
 
-export const initialOrderValues: IBuyOrderPartial = {
+export const initialOrderFormValues: IBuyOrderPartial = {
   id: null,
   name: null,
   createdAt: null,
+  budget: null,
   datasetIds: [],
   countries: [],
-  budget: null,
 };
