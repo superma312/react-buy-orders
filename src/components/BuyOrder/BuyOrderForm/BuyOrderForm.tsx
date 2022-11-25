@@ -1,4 +1,4 @@
-import React, { useEffect, useState, FC } from 'react';
+import React, { FC } from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Badge from 'react-bootstrap/Badge';
@@ -6,6 +6,8 @@ import { useSelector } from 'react-redux';
 import dayjs from 'dayjs';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
+import { FieldArray, Formik } from 'formik';
+import * as Yup from 'yup';
 
 import { countrySelector } from '../../../store/reducers/country';
 import { datasetSelector } from '../../../store/reducers/dataset';
@@ -23,260 +25,240 @@ export const initialBuyOrderData: IBuyOrderPartial = {
   budget: null,
 };
 
+interface IForm {
+  name: string | null;
+  budget: number | null;
+  datasetIds: number[] | null;
+  countries: string[] | null;
+}
+
 interface IBuyOrderFormProps {
   details: IBuyOrderPartial;
   isSubmiting: boolean;
   onSubmit: (data: IBuyOrderPartial) => void;
 }
 
+const schema = Yup.object().shape({
+  name: Yup.string().required('Name is required.').nullable(),
+  budget: Yup.number().required('Budget is required.').nullable(),
+  datasetIds: Yup.array()
+    .of(Yup.number())
+    .min(1, 'Please choose one dataset at least.'),
+  countries: Yup.array()
+    .of(Yup.string())
+    .min(1, 'Please choose one country at least.')
+    .of(Yup.string()),
+});
+
 const BuyOrderForm: FC<IBuyOrderFormProps> = ({
   details,
   isSubmiting,
   onSubmit,
 }) => {
-  const [formData, setFormData] =
-    useState<IBuyOrderPartial>(initialBuyOrderData);
-  const [isValidated, setIsValidated] = useState(false);
   const { all: allCountries } = useSelector(countrySelector);
   const { all: allDatasets } = useSelector(datasetSelector);
 
-  useEffect(() => {
-    setFormData({ ...details });
-  }, [details]);
-
-  const handleChangeValue = (propertyName: string, value: string | number) => {
-    setFormData({
-      ...formData,
-      [propertyName]: value,
+  const handleSubmit = (values: IForm) => {
+    onSubmit({
+      ...details,
+      ...values,
     });
-  };
-
-  const handleChangeDataset = (datasetId: number) => {
-    const existingDatasetIds = formData.datasetIds
-      ? [...formData.datasetIds]
-      : [];
-    const index = existingDatasetIds.indexOf(datasetId);
-
-    if (index === -1) {
-      existingDatasetIds.push(datasetId);
-    } else {
-      existingDatasetIds.splice(index, 1);
-    }
-
-    setFormData({
-      ...formData,
-      datasetIds: existingDatasetIds,
-    });
-  };
-
-  const handleChangeCountries = (countryCode: string) => {
-    const existingCountryCodes = formData.countries
-      ? [...formData.countries]
-      : [];
-    const index = existingCountryCodes.indexOf(countryCode);
-
-    if (index === -1) {
-      existingCountryCodes.push(countryCode);
-    } else {
-      existingCountryCodes.splice(index, 1);
-    }
-
-    setFormData({
-      ...formData,
-      countries: existingCountryCodes,
-    });
-  };
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    event.stopPropagation();
-    const form = event.currentTarget;
-
-    if (form.checkValidity()) {
-      onSubmit(formData);
-    }
-
-    setIsValidated(true);
   };
 
   const isEdit = !!details.id;
   const actionButtonName = isEdit ? 'Save' : 'Create Order';
 
   return (
-    <Form
-      noValidate
-      validated={isValidated}
-      onSubmit={handleSubmit}
-      className="bg-gray-black p-4"
+    <Formik
+      validationSchema={schema}
+      onSubmit={(values) => handleSubmit(values)}
+      initialValues={{
+        name: details.name,
+        budget: details.budget,
+        datasetIds: details.datasetIds,
+        countries: details.countries,
+      }}
     >
-      <Row>
-        <Form.Group as={Col} xs={12} md={6} className="mb-3">
-          <Form.Label className="text-secondary text-decoration-underline">
-            Order name
-          </Form.Label>
-          <Form.Control
-            type="text"
-            required
-            value={formData.name ? formData.name : ''}
-            placeholder="Order name"
-            onChange={(event) => handleChangeValue('name', event.target.value)}
-          />
-          <Form.Control.Feedback type="invalid">
-            Please input a order name.
-          </Form.Control.Feedback>
-        </Form.Group>
-        {isEdit && (
-          <Form.Group as={Col} xs={12} md={6} className="mb-3">
-            <Form.Label className="text-secondary text-decoration-underline">
-              Date Created
-            </Form.Label>
-            <Form.Control
-              type="text"
-              readOnly
-              disabled
-              value={
-                formData.createdAt
-                  ? dayjs(formData?.createdAt).format('MM/DD/YYYY')
-                  : ''
-              }
-            />
-          </Form.Group>
-        )}
-      </Row>
-      <Row>
-        <Form.Group as={Col} xs={12} md={6} className="mb-3">
-          <Form.Label className="text-secondary text-decoration-underline">
-            Order Budget
-          </Form.Label>
-          <InputGroup hasValidation>
-            <InputGroup.Text>$</InputGroup.Text>
-            <Form.Control
-              type="number"
-              required
-              value={formData.budget ? formData.budget : 0}
-              isInvalid={
-                isValidated && (!formData.budget || formData.budget <= 0)
-              }
-              placeholder="Order Budget"
-              onChange={(event) =>
-                handleChangeValue('budget', Number(event.target.value))
-              }
-            />
-            <Form.Control.Feedback type="invalid">
-              Please input a order budget.
-            </Form.Control.Feedback>
-          </InputGroup>
-        </Form.Group>
-      </Row>
-      <Row>
-        <Form.Group as={Col} xs={12} className="mb-3">
-          <Form.Label className="text-secondary text-decoration-underline">
-            Included datasets
-          </Form.Label>
+      {({ handleSubmit, handleChange, values, touched, errors }) => (
+        <Form noValidate onSubmit={handleSubmit} className="bg-gray-black p-4">
           <Row>
-            {allDatasets &&
-              allDatasets.map((dataset) => (
-                <Col
-                  xs={12}
-                  md={6}
-                  key={`dataset_${dataset.id}`}
-                  className="mb-3"
-                >
-                  <div
-                    className={`d-flex align-items-center bg-gray-white p-2 cursor-pointer ${
-                      formData.datasetIds?.indexOf(dataset.id) === -1
-                        ? ''
-                        : 'border border-dark'
-                    }`}
-                    onClick={() => handleChangeDataset(dataset.id)}
-                  >
-                    <img
-                      src={dataset.thumbnailUrl}
-                      alt="thumbnail"
-                      className="me-2 thumbnail"
-                    />
-                    <div>
-                      <div>{dataset.label}</div>
-                      <div className="fw-lighter cost">
-                        ${dataset.costPerRecord.toFixed(2)} per record
-                      </div>
-                    </div>
-                  </div>
-                </Col>
-              ))}
+            <Form.Group as={Col} xs={12} md={6} className="mb-3">
+              <Form.Label className="text-secondary text-decoration-underline">
+                Order name
+              </Form.Label>
+              <Form.Control
+                type="text"
+                name="name"
+                required
+                value={values.name ?? ''}
+                placeholder="Order name"
+                onChange={handleChange}
+              />
+              {!!errors.name && touched.name && (
+                <div className="mt-1 text-danger small">{errors.name}</div>
+              )}
+            </Form.Group>
+            {isEdit && (
+              <Form.Group as={Col} xs={12} md={6} className="mb-3">
+                <Form.Label className="text-secondary text-decoration-underline">
+                  Date Created
+                </Form.Label>
+                <Form.Control
+                  type="text"
+                  readOnly
+                  disabled
+                  value={
+                    details.createdAt
+                      ? dayjs(details?.createdAt).format('MM/DD/YYYY')
+                      : ''
+                  }
+                />
+              </Form.Group>
+            )}
           </Row>
-          <Form.Control
-            type="text"
-            value={
-              formData.datasetIds && formData.datasetIds.length > 0
-                ? 'valid'
-                : ''
-            }
-            required
-            hidden
-            isInvalid={
-              isValidated &&
-              (!formData.datasetIds || formData.datasetIds.length === 0)
-            }
-            onChange={() => {}}
-          />
-          <Form.Control.Feedback type="invalid">
-            Please choose one dataset at least.
-          </Form.Control.Feedback>
-        </Form.Group>
-      </Row>
-      <Row>
-        <Form.Group as={Col} xs={12} className="mb-3">
-          <Form.Label className="text-secondary text-decoration-underline">
-            Included countries
-          </Form.Label>
-          <div>
-            {allCountries &&
-              allCountries.map((country) => (
-                <Badge
-                  pill
-                  bg="light"
-                  className={`mx-1 text-dark bg-gray-white cursor-pointer ${
-                    formData.countries?.indexOf(country.countryCode) === -1
-                      ? ''
-                      : 'border border-dark'
-                  }`}
-                  key={`country_${country.countryCode}`}
-                  onClick={() => handleChangeCountries(country.countryCode)}
-                >
-                  {country.name}
-                </Badge>
-              ))}
-          </div>
-          <Form.Control
-            type="text"
-            hidden
-            value={
-              formData.countries && formData.countries.length > 0 ? 'valid' : ''
-            }
-            isInvalid={
-              isValidated &&
-              (!formData.countries || formData.countries.length === 0)
-            }
-            onChange={() => {}}
-          />
-          <Form.Control.Feedback type="invalid">
-            Please choose one country at least.
-          </Form.Control.Feedback>
-        </Form.Group>
-      </Row>
-      <Row>
-        <Col xs={12}>
-          <div className="d-flex justify-content-center">
-            <Button
-              type="submit"
-              name={actionButtonName}
-              loading={isSubmiting}
-            />
-          </div>
-        </Col>
-      </Row>
-    </Form>
+          <Row>
+            <Form.Group as={Col} xs={12} md={6} className="mb-3">
+              <Form.Label className="text-secondary text-decoration-underline">
+                Order Budget
+              </Form.Label>
+              <InputGroup hasValidation>
+                <InputGroup.Text>$</InputGroup.Text>
+                <Form.Control
+                  type="number"
+                  name="budget"
+                  required
+                  value={values.budget ?? 0}
+                  placeholder="Order Budget"
+                  onChange={handleChange}
+                />
+              </InputGroup>
+              {!!errors.budget && touched.budget && (
+                <div className="mt-1 text-danger small">{errors.budget}</div>
+              )}
+            </Form.Group>
+          </Row>
+          <Row>
+            <Form.Group as={Col} xs={12} className="mb-3">
+              <Form.Label className="text-secondary text-decoration-underline">
+                Included datasets
+              </Form.Label>
+
+              <FieldArray
+                name="datasetIds"
+                render={({ remove, push }) => (
+                  <Row>
+                    {allDatasets &&
+                      allDatasets.map((dataset) => (
+                        <Col
+                          xs={12}
+                          md={6}
+                          key={`dataset_${dataset.id}`}
+                          className="mb-3"
+                        >
+                          <div
+                            className={`d-flex align-items-center bg-gray-white p-2 cursor-pointer ${
+                              values.datasetIds?.indexOf(dataset.id) === -1
+                                ? ''
+                                : 'border border-dark'
+                            }`}
+                            onClick={() => {
+                              const datasetIds = values.datasetIds
+                                ? [...values.datasetIds]
+                                : [];
+                              const index = datasetIds.indexOf(dataset.id);
+
+                              if (index === -1) {
+                                push(dataset.id);
+                              } else {
+                                remove(index);
+                              }
+                            }}
+                          >
+                            <img
+                              src={dataset.thumbnailUrl}
+                              alt="thumbnail"
+                              className="me-2 thumbnail"
+                            />
+                            <div>
+                              <div>{dataset.label}</div>
+                              <div className="fw-lighter cost">
+                                ${dataset.costPerRecord.toFixed(2)} per record
+                              </div>
+                            </div>
+                          </div>
+                        </Col>
+                      ))}
+                  </Row>
+                )}
+              />
+              {!!errors.datasetIds && touched.datasetIds && (
+                <div className="mt-1 text-danger small">
+                  {errors.datasetIds}
+                </div>
+              )}
+            </Form.Group>
+          </Row>
+          <Row>
+            <Form.Group as={Col} xs={12} className="mb-3">
+              <Form.Label className="text-secondary text-decoration-underline">
+                Included countries
+              </Form.Label>
+              <FieldArray
+                name="countries"
+                render={({ remove, push }) => (
+                  <div>
+                    {allCountries &&
+                      allCountries.map((country) => (
+                        <Badge
+                          pill
+                          bg="light"
+                          className={`mx-1 text-dark bg-gray-white cursor-pointer ${
+                            values.countries?.indexOf(country.countryCode) ===
+                            -1
+                              ? ''
+                              : 'border border-dark'
+                          }`}
+                          key={`country_${country.countryCode}`}
+                          onClick={() => {
+                            const countries = values.countries
+                              ? [...values.countries]
+                              : [];
+                            const index = countries.indexOf(
+                              country.countryCode
+                            );
+
+                            if (index === -1) {
+                              push(country.countryCode);
+                            } else {
+                              remove(index);
+                            }
+                          }}
+                        >
+                          {country.name}
+                        </Badge>
+                      ))}
+                  </div>
+                )}
+              />
+              {!!errors.countries && touched.countries && (
+                <div className="mt-1 text-danger small">{errors.countries}</div>
+              )}
+            </Form.Group>
+          </Row>
+          <Row>
+            <Col xs={12}>
+              <div className="d-flex justify-content-center">
+                <Button
+                  type="submit"
+                  name={actionButtonName}
+                  loading={isSubmiting}
+                />
+              </div>
+            </Col>
+          </Row>
+        </Form>
+      )}
+    </Formik>
   );
 };
 
