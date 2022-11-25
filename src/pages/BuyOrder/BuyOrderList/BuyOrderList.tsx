@@ -57,6 +57,10 @@ const BuyOrderList = () => {
     <>
       <h1 className="text-center my-5">Your Buy Orders</h1>
 
+      <div className="d-flex justify-content-end mb-3">
+        <Link to="/buy-orders/new">Create New Buy Order</Link>
+      </div>
+
       <ListResult count={filteredBuyOrders.length} />
 
       {filteredBuyOrders.map((buyOrder, index) => (
