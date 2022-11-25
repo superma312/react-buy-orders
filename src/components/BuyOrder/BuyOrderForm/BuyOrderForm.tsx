@@ -16,15 +16,6 @@ import { IBuyOrderPartial } from '../../../types/BuyOrder';
 
 import './BuyOrderForm.scss';
 
-export const initialBuyOrderData: IBuyOrderPartial = {
-  id: null,
-  name: null,
-  createdAt: null,
-  datasetIds: [],
-  countries: [],
-  budget: null,
-};
-
 interface IForm {
   name: string | null;
   budget: number | null;

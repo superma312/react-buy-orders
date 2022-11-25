@@ -2,9 +2,6 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-import BuyOrderForm, {
-  initialBuyOrderData,
-} from '../../../components/BuyOrder/BuyOrderForm/BuyOrderForm';
 import { buyOrderSelector } from '../../../store/reducers/buy-order';
 import { createBuyOrder } from '../../../store/reducers/buy-order/actions';
 import { thunkDispatch } from '../../../store/store';
@@ -13,6 +10,8 @@ import { datasetSelector } from '../../../store/reducers/dataset';
 import Loader from '../../../components/Loader/Loader';
 import { countrySelector } from '../../../store/reducers/country';
 import { IBuyOrderPartial } from '../../../types/BuyOrder';
+import { initialOrderValues } from '../../../constants/common';
+import BuyOrderForm from '../../../components/BuyOrder/BuyOrderForm/BuyOrderForm';
 
 const BuyOrderCreate = () => {
   const navigate = useNavigate();
@@ -53,7 +52,7 @@ const BuyOrderCreate = () => {
       <h1 className="text-center my-5">New Buy Order</h1>
 
       <BuyOrderForm
-        details={initialBuyOrderData}
+        details={initialOrderValues}
         isSubmiting={createStatus === 'pending'}
         onSubmit={handleSubmit}
       />
