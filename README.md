@@ -2,10 +2,11 @@
 
 This app is for creating and managing Buy Orders in the marketplace.
 
-- React for UI
-- @reduxjs/toolkit for the redux statemanagement
-- Typescript for the typing
+- React for a UI
+- @reduxjs/toolkit for a redux statemanagement
+- Typescript for a typing
 - Bootstrap 5 for UI components
+- formik for a form validation
 - Axios for implementing APIs
 - dayjs for handling dates
 
